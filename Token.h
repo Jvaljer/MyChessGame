@@ -12,15 +12,32 @@ typedef enum { PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING }Role;
 typedef enum { WHITE, BLACK, NONE }Color;
 
 /*
- * Token is defined by a role, a color, and a Slot, 
+ * Id (Simple acces to Role & Color) is defined by
+ * the color as first min letter, and role as second 
+ * maj letter.
+ */
+typedef enum { bP, bR, bK, bB, bQ, BK,
+               wP, wR, wK, wB, wQ, WK,
+               ER }Id;
+
+/*
+ * Token is defined by a role, a color, a Slot, and an Id  
  * (plus a statement which tells if it's on Board or not ?)
  */
 typedef struct Token{
     Role role;
     Color color;
     Slot* slot;
+    Id id;
     //int onBoard;
 }Token;
+
+/*
+ * Id maker 
+ * args : (R:Role) (C:Color)
+ * result : Id corresponding to R & C 
+ */
+Id make_Id(Role R, Color C);
 
 /*
  * Token Constructor
@@ -29,6 +46,7 @@ typedef struct Token{
  *    Role & Color values.
  */
 Token* new_Token(Slot* S, Role R, Color C);
+
 
 /*
  * Test Function for Token stuff
