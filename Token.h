@@ -29,7 +29,7 @@ typedef struct Token{
     Color color;
     Slot* slot;
     Id id;
-    //int onBoard;
+    int onBoard;
 }Token;
 
 /*

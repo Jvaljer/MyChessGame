@@ -46,6 +46,7 @@ Token* new_Token(Slot* S, Role R, Color C){
     T->color = C;
     T->slot = S;
     T->id = make_Id(T->role, T->color);
+    T->onBoard = 0;
     return T;
 }
 
