@@ -39,7 +39,7 @@ int IsNeighbour(Coord* C1, Coord* C2);
 int IsDirectDiag(Coord* C1, Coord* C2);
 
 /*
- * Test Function for Coord files
+ * Test Function for Coord stuff
  * args : None
  * result : nothing if all assertion true
  *          error if an assertion false
