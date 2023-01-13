@@ -11,6 +11,16 @@ Slot* new_Slot(Coord* C){
     return S;
 }
 
+int EqSlot(Slot* S1, Slot* S2){
+    //Testing the coord's VALUE
+    return EqCoord(S1->coord,S2->coord);
+}
+
+int EqSlotP(Slot* S1, Slot* S2){
+    //Testing the coord's ADRESS
+    return (S1->coord == S2->coord);
+}
+
 int IsNeighbourSlot(Slot* S1, Slot* S2){
     return IsNeighbour(S1->coord,S2->coord);
 }
@@ -30,6 +40,16 @@ void TestSlot(){
     assert(EqCoord(S1->coord,new_Coord(1,2))==1);
     assert((S1->occupied)==0);
     assert((S0->occupied)==0);
+    printf(" check\n");
+
+    printf("Testing Equality :");
+    Slot* S0_bis = new_Slot(new_Coord(2,1));  
+    assert( EqSlot(S0,S1)==0 );
+    assert( EqSlot(S0,S0_bis)==1 );
+    Coord* Cp = new_Coord(5,5);
+    Slot* Sp = new_Slot(Cp);
+    Slot* Spp = new_Slot(Cp);
+    assert(EqSlotP(Sp,Spp));
     printf(" check\n");
 
     printf("Testing Slot Neighbouring :");

@@ -14,6 +14,20 @@ typedef struct Slot{
 } Slot;
 
 /*
+ * Equality for type Slot
+ * args : (S1:Slot*) (S2:Slot*)
+ * result : 1 if S1.coord & S2.coord has the same values
+ */
+int EqSlot(Slot* S1, Slot* S2);
+
+/*
+ * Equality for type Slot
+ * args : (S1:Slot*) (S2:Slot*)
+ * result : 1 if S1 & S2 are pointing at the same coord
+ */
+int EqSlotP(Slot* S1, Slot* S2);
+
+/*
  * Neighbour testing for Slots
  * args : (S1:Slot*) (S2:Slot*)
  * result : 1 if S2 neighbour of S1, else 0
