@@ -34,8 +34,6 @@ int IsDirectDiagSlot(Slot* S1, Slot* S2);
  */
 Slot* new_Slot(Coord* C);
 
-
-
 /*
  * Test Function for Slot stuff
  * args : None
