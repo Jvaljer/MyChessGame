@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Slot.h"
+#include "Token.h"
 
 int main(int argc, char* argv){
     /*
      * Test Section
      */
     TestCoord(); //passed succesfully !
-    TestSlot();
+    TestSlot(); //passed succesfully ! 
+    TestToken();
 
     /*
      * Core section
