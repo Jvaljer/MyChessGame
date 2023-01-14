@@ -50,6 +50,14 @@ Token* new_Token(Slot* S, Role R, Color C){
     return T;
 }
 
+int EqToken(Token* T1, Token* T2){
+    return ( (EqSlot(T1->slot,T2->slot)) && (T1->role==T2->role) && (T1->color==T2->color) );
+}
+
+int EqTokenP(Token* T1, Token* T2){
+    return (T1==T2);
+}
+
 void TestToken(){
     printf("#- TOKEN TEST START\n");
     printf("Testing Constructor :");

@@ -47,7 +47,20 @@ Id make_Id(Role R, Color C);
  */
 Token* new_Token(Slot* S, Role R, Color C);
 
+/*
+ * Equality for type Token
+ * args : (T1:Token*) (T2:Token*)
+ * result : 1 if T1.slot.coord & T2.slot.coord has the same values
+ *         and T1.role = T2.role and T1.color = T2.color
+ */
+int EqToken(Token* T1, Token* T2);
 
+/*
+ * Equality for type Slot
+ * args : (T1:Token**) (T2:Token**)
+ * result : 1 if T1 & T2 are pointing at the same object
+ */
+int EqTokenP(Token* T1, Token* T2);
 /*
  * Test Function for Token stuff
  * args : None
