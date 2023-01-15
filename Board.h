@@ -19,6 +19,35 @@ typedef struct Board{
  */
 Board* new_Board();
 
+Token* FindToken(Board* B, Slot* S);
+
+/*
+ * Printing function for a Board 
+ *  args : (B:Board*)
+ *  result :
+ *      for an initialized board ->
+ *     a    b    c    d    e    f    g    h
+ *   -----------------------------------------
+ *   | wR | wK | wB | wQ | WK | wB | wK | wR | 1
+ *   -----------------------------------------
+ *   | wP | wP | wP | wP | wP | wP | wP | wP | 2
+ *   -----------------------------------------
+ *   |    |    |    |    |    |    |    |    | 3
+ *   -----------------------------------------
+ *   |    |    |    |    |    |    |    |    | 4
+ *   -----------------------------------------
+ *   |    |    |    |    |    |    |    |    | 5
+ *   -----------------------------------------
+ *   |    |    |    |    |    |    |    |    | 6
+ *   -----------------------------------------
+ *   | bP | bP | bP | bP | bP | bP | bP | bP | 7
+ *   -----------------------------------------
+ *   | bR | bK | bB | bQ | BK | bB | bK | bR | 8
+ *   -----------------------------------------
+ */
+void PrintBoard(Board* B);
+
+
 /*
  * Test Function for Board stuff
  * args : None
