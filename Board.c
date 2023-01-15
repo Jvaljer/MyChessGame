@@ -34,6 +34,28 @@ Board* new_Board(){
     return B;
 }
 
+Token* FindToken(Board* B, Slot* S){
+    
+}
+
+void PrintBoard(Board* B){
+    printf("  a    b    c    d    e    f    g    h\n");
+    printf("-----------------------------------------\n");
+    for(int i=0; i<8; i++){
+        for(int j=0; j<8; j++){
+            printf("| ");
+            if(B->grid[i][j]->occupied){
+                Token* T_ = FindToken(B,B->grid[i][j]);
+                printf("%s ", Id_to_str(T_));
+            } else {
+                printf("   ");
+            }
+        }
+        printf("| %d\n", i+1);
+        printf("-----------------------------------------\n");
+    }
+}
+
 void TestBoard(){
     printf("#- BOARD TEST START\n");
     printf("Testing Constructor : ");
@@ -44,5 +66,10 @@ void TestBoard(){
         }
     }
     printf(" check\n");
+
+    printf("Testing Printing : ");
+    PrintBoardValues(B);
+    printf(" check\n");
+
     printf(" -> BOARD TEST END -# \n\n");
 }
