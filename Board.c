@@ -15,18 +15,22 @@ Board* new_Board(){
             if(i==0){
                 Token* T_ = new_Token(B->grid[i][j],line[j],WHITE);
                 B->hands[0][8+j] = T_ ;
+                S_->occupied = 1;
                 //assert( EqTokenP(T_,B->hands[0][8+j]) );
             } else if(i==1){
                 Token* T_ = new_Token(B->grid[i][j],PAWN,WHITE);
                 B->hands[0][j] = T_ ;
+                S_->occupied = 1;
                 //assert( EqTokenP(T_,B->hands[0][j]) );
             } else if(i==6){
                 Token* T_ = new_Token(B->grid[i][j],PAWN,BLACK);
                 B->hands[1][j] = T_ ;
+                S_->occupied = 1;
                 //assert( EqTokenP(T_,B->hands[1][j]) );
             } else if(i==7){
                 Token* T_ = new_Token(B->grid[i][j],line[j],BLACK);
                 B->hands[1][8+j] = T_ ;
+                S_->occupied = 1;
                 //assert( EqTokenP(T_,B->hands[1][8+j]) );
             }
         }
@@ -35,18 +39,25 @@ Board* new_Board(){
 }
 
 Token* FindToken(Board* B, Slot* S){
-    
+    for(int i=0; i<2; i++){
+        for(int j=0; j<16; j++){
+            if( EqSlotP(B->hands[i][j]->slot, S) ){
+                return B->hands[i][j];
+            }
+        }
+    }
+    return NULL;
 }
 
 void PrintBoard(Board* B){
-    printf("  a    b    c    d    e    f    g    h\n");
+    printf("\n  a    b    c    d    e    f    g    h\n");
     printf("-----------------------------------------\n");
     for(int i=0; i<8; i++){
         for(int j=0; j<8; j++){
             printf("| ");
             if(B->grid[i][j]->occupied){
                 Token* T_ = FindToken(B,B->grid[i][j]);
-                printf("%s ", Id_to_str(T_));
+                printf("%s ", Id_to_str(T_->id));
             } else {
                 printf("   ");
             }
@@ -68,7 +79,7 @@ void TestBoard(){
     printf(" check\n");
 
     printf("Testing Printing : ");
-    PrintBoardValues(B);
+    PrintBoard(B);
     printf(" check\n");
 
     printf(" -> BOARD TEST END -# \n\n");

@@ -40,8 +40,33 @@ Id make_Id(Role R, Color C){
     }
 }
 
-char* Id_to_str(Token* T){
-
+char* Id_to_str(Id id){
+    switch (id){
+        case bP : 
+            return "bP";
+        case bR :
+            return "bR";
+        case bK : 
+            return "bK";
+        case bB :
+            return "bB";
+        case bQ : 
+            return "bQ";
+        case BK :
+            return "BK";
+        case wP : 
+            return "wP";
+        case wR :
+            return "wR";
+        case wK : 
+            return "wK";
+        case wB :
+            return "wB";
+        case wQ : 
+            return "wQ";
+        case WK :
+            return "WK";
+    }
 }
 
 Token* new_Token(Slot* S, Role R, Color C){

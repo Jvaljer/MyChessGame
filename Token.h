@@ -39,7 +39,7 @@ typedef struct Token{
  */
 Id make_Id(Role R, Color C);
 
-char* Id_to_str(Token* T);
+char* Id_to_str(Id id);
 
 /*
  * Token Constructor
