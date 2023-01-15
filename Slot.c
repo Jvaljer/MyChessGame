@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 #include "Slot.h"
 
@@ -27,6 +28,10 @@ int IsNeighbourSlot(Slot* S1, Slot* S2){
 
 int IsDirectDiagSlot(Slot* S1, Slot* S2){
     return IsDirectDiag(S1->coord,S2->coord);
+}
+
+void PrintSlot(Slot* S){
+    printf("[%d][%d]", S->coord->x, S->coord->y);
 }
 
 void TestSlot(){
@@ -70,5 +75,10 @@ void TestSlot(){
     assert( IsDirectDiagSlot(S0,S3)==IsDirectDiagSlot(S3,S0) );
     printf(" check\n");
 
+    printf("Testing char* conversion : ");
+    Slot* S6 = new_Slot(new_Coord(3,7));
+    printf(" excpeting [3][7] -> ");
+    PrintSlot(S6);
+    printf("\n");
     printf(" -> SLOT TEST END -# \n\n");
 }

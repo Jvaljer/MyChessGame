@@ -49,6 +49,14 @@ int IsDirectDiagSlot(Slot* S1, Slot* S2);
 Slot* new_Slot(Coord* C);
 
 /*
+ * Printing function for slots
+ * args : (S:Slot*)
+ * result :
+ *  "[x][y]\n" with x = S->coord->x & y = S->coord->y 
+ */
+void PrintSlot(Slot* S);
+
+/*
  * Test Function for Slot stuff
  * args : None
  * result : nothing if all assertion true
