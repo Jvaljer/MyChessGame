@@ -40,6 +40,10 @@ Id make_Id(Role R, Color C){
     }
 }
 
+char* Id_to_str(Token* T){
+
+}
+
 Token* new_Token(Slot* S, Role R, Color C){
     Token* T = malloc(sizeof(Token));
     T->role = R;
