@@ -19,12 +19,20 @@ typedef struct Game{
  */
 Game* new_Game();
 
+/*
+ * Test Moving for Tokens 
+ * args : (G:Game*) (T:Token*) (S:Slot*)
+ * result : 
+ *      0 if T can't move on S (not right turn or not 
+ *      a valid move)
+ */
 int PawnMove(Game* G, Token* T, Slot* S);
 int RookMove(Game* G, Token* T, Slot* S);
 int KnightMove(Game* G, Token* T, Slot* S);
 int BishopMove(Game* G, Token* T, Slot* S);
 int QueenMove(Game* G, Token* T, Slot* S);
 int KingMove(Game* G, Token* T, Slot* S);
+
 /*
  * Movement Test for a specific Token
  * args : (G:Game*) (S1:Slot*) (S2:Slot*)

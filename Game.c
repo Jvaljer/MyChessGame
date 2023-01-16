@@ -11,27 +11,89 @@ Game* new_Game(){
 }
 
 int PawnMove(Game* G, Token* T, Slot* S){
-
+    if(G->turn != T->color || S->occupied==1){
+        return 0;
+    } else {
+        switch (T->color){
+            case WHITE :
+                if(T->slot->coord->x==S->coord-1 || T->slot->coord->y==S->coord-2){
+                    return 1;
+                } else {
+                    return 0;
+                }
+            case BLACK : 
+                if(T->slot->coord->x==S->coord+1 || T->slot->coord->y==S->coord+2){
+                    return 1;
+                } else {
+                    return 0;
+                }
+        }
+    }
 }
 
 int RookMove(Game* G, Token* T, Slot* S){
+    if(G->turn != T->color || S->occupied==1){
+        return 0;
+    } else {
+        switch (T->color){
+            case WHITE :
+                
+            case BLACK :
 
+        }
+    }
 }
 
 int KnightMove(Game* G, Token* T, Slot* S){
+    if(G->turn != T->color || S->occupied==1){
+        return 0;
+    } else {
+        switch (T->color){
+            case WHITE :
 
+            case BLACK :
+            
+        }
+    }
 }
 
 int BishopMove(Game* G, Token* T, Slot* S){
+    if(G->turn != T->color || S->occupied==1){
+        return 0;
+    } else {
+        switch (T->color){
+            case WHITE :
 
+            case BLACK :
+            
+        }
+    }
 }
 
 int QueenMove(Game* G, Token* T, Slot* S){
+    if(G->turn != T->color || S->occupied==1){
+        return 0;
+    } else {
+        switch (T->color){
+            case WHITE :
 
+            case BLACK :
+            
+        }
+    }
 }
 
 int KingMove(Game* G, Token* T, Slot* S){
+    if(G->turn != T->color || S->occupied==1){
+        return 0;
+    } else {
+        switch (T->color){
+            case WHITE :
 
+            case BLACK :
+            
+        }
+    }
 }
 
 int CanMove(Game* G, Slot* S1, Slot* S2){
