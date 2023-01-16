@@ -19,6 +19,11 @@ typedef struct Board{
  */
 Board* new_Board();
 
+/*
+ * Finding a Token on Board 
+ * args : (B:Board*) (S:Slot*)
+ * result : returns the Token that's on B located on S
+ */
 Token* FindToken(Board* B, Slot* S);
 
 /*
@@ -47,6 +52,22 @@ Token* FindToken(Board* B, Slot* S);
  */
 void PrintBoard(Board* B);
 
+/*
+ * Moving Token Function
+ * args : (B:Board*) (S1:Slot*) (S2:Slot*)
+ * result : changes Token on S1 to now positionned as on S2, 
+ * (don't care if possible or not, will be tested 
+ *  later on in 'Game')
+ */
+void MoveToken(Board* B, Slot* S1, Slot* S2);
+
+/*
+ * Taking Token Function
+ * args : (B:Board*) (S:Slot*)
+ * result : removes the Token on S from the board (giving him
+ *  a [-1][-1] slot as position)
+ */
+void TakeToken(Board* B, Slot* S);
 
 /*
  * Test Function for Board stuff

@@ -16,21 +16,25 @@ Board* new_Board(){
                 Token* T_ = new_Token(B->grid[i][j],line[j],WHITE);
                 B->hands[0][8+j] = T_ ;
                 S_->occupied = 1;
+                T_->onBoard = 1;
                 //assert( EqTokenP(T_,B->hands[0][8+j]) );
             } else if(i==1){
                 Token* T_ = new_Token(B->grid[i][j],PAWN,WHITE);
                 B->hands[0][j] = T_ ;
                 S_->occupied = 1;
+                T_->onBoard = 1;
                 //assert( EqTokenP(T_,B->hands[0][j]) );
             } else if(i==6){
                 Token* T_ = new_Token(B->grid[i][j],PAWN,BLACK);
                 B->hands[1][j] = T_ ;
                 S_->occupied = 1;
+                T_->onBoard = 1;
                 //assert( EqTokenP(T_,B->hands[1][j]) );
             } else if(i==7){
                 Token* T_ = new_Token(B->grid[i][j],line[j],BLACK);
                 B->hands[1][8+j] = T_ ;
                 S_->occupied = 1;
+                T_->onBoard = 1;
                 //assert( EqTokenP(T_,B->hands[1][8+j]) );
             }
         }
@@ -41,11 +45,12 @@ Board* new_Board(){
 Token* FindToken(Board* B, Slot* S){
     for(int i=0; i<2; i++){
         for(int j=0; j<16; j++){
-            if( EqSlotP(B->hands[i][j]->slot, S) ){
+            if( EqSlotP(B->hands[i][j]->slot, S) && B->hands[i][j]->onBoard){
                 return B->hands[i][j];
             }
         }
     }
+    //return new_Token(new_Slot(new_Coord(-1,-1)),KING,NONE);
     return NULL;
 }
 
@@ -67,6 +72,21 @@ void PrintBoard(Board* B){
     }
 }
 
+void MoveToken(Board* B, Slot* S1, Slot* S2){
+    Token* T_ = FindToken(B,S1);
+    S1->occupied = 0;
+    T_->slot = S2;
+    S2->occupied = 1;
+}
+
+
+void TakeToken(Board* B, Slot* S){
+    Token* T_ = FindToken(B,S);
+    S->occupied = 0;
+    T_->slot = new_Slot(new_Coord(-1,-1));
+    T_->onBoard = 0;
+}
+
 void TestBoard(){
     printf("#- BOARD TEST START\n");
     printf("Testing Constructor : ");
@@ -78,7 +98,22 @@ void TestBoard(){
     }
     printf(" check\n");
 
-    printf("Testing Printing : ");
+    printf("Testing Printing #1 : ");
+    PrintBoard(B);
+    printf(" check\n");
+
+    printf("Testing Token moving/Removing : ");
+    MoveToken(B,B->grid[1][4],B->grid[3][4]);
+    TakeToken(B,B->grid[1][0]);
+    assert(B->grid[1][0]->occupied==0);
+    assert( FindToken(B,B->grid[1][0])==NULL );
+    assert( FindToken(B,B->grid[1][4])==NULL);
+    assert( FindToken(B,B->grid[3][4])!=NULL);
+    Token* T_ = FindToken(B,B->grid[3][4]);
+    assert( EqSlotP(B->grid[3][4],T_->slot)==1 );
+    printf(" check\n");
+
+    printf("Testing Printing #2 : ");
     PrintBoard(B);
     printf(" check\n");
 

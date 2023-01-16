@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Board.h"
+#include "Game.h"
 
 int main(int argc, char* argv){
     /*
@@ -10,7 +10,8 @@ int main(int argc, char* argv){
     //TestCoord();  
     //TestSlot(); 
     //TestToken(); 
-    TestBoard(); 
+    //TestBoard(); 
+    TestGame();
     /*
      * Core section
      */
