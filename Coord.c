@@ -10,6 +10,19 @@ Coord* new_Coord(int i, int j){
     return C;
 }
 
+Direction* new_Direction(){
+    Direction* D_ = malloc(sizeof(Direction));
+    D_->up = new_Coord(0,1);
+    D_->down = new_Coord(0,-1);
+    D_->right = new_Coord(1,0);
+    D_->left = new_Coord(-1,0);
+    D_->up_right = new_Coord(1,1);
+    D_->up_left = new_Coord(-1,1);
+    D_->down_right = new_Coord(1,-1);
+    D_->down_left = new_Coord(-1,-1);
+    return D_;
+}
+
 int EqCoord(Coord* C1, Coord* C2){
     return ( (C1->x)==(C2->x) && (C1->y)==(C2->y) );
 }

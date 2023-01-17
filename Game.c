@@ -7,22 +7,27 @@ Game* new_Game(){
     Game* G_ = malloc(sizeof(Game));
     G_->board = new_Board();
     G_->turn = WHITE;
+    G_->direction = new_Direction();
     return G_;
 }
 
 int PawnMove(Game* G, Token* T, Slot* S){
-    if(G->turn != T->color || S->occupied==1){
+    if(G->turn != T->color){
         return 0;
     } else {
         switch (T->color){
             case WHITE :
-                if(T->slot->coord->x==S->coord-1 || T->slot->coord->y==S->coord-2){
+                if( (T->slot->coord->y == S->coord->y -1 || T->slot->coord->y == S->coord->y - 2) && T->slot->coord->x == S->coord->x ){
+                    return 1;
+                } else if( (T->slot->coord->x==S->coord->x +1 || T->slot->coord->x==S->coord->x -1) && T->slot->coord->y == S->coord->y -1){
                     return 1;
                 } else {
                     return 0;
                 }
-            case BLACK : 
-                if(T->slot->coord->x==S->coord+1 || T->slot->coord->y==S->coord+2){
+            case BLACK :
+                if( (T->slot->coord->y == S->coord->y +1 || T->slot->coord->y == S->coord->y +2) && T->slot->coord->x == S->coord->x ){
+                    return 1;
+                } else if( (T->slot->coord->x==S->coord->x -1 || T->slot->coord->x==S->coord->x +1) && T->slot->coord->y == S->coord->y +1){
                     return 1;
                 } else {
                     return 0;
@@ -32,68 +37,23 @@ int PawnMove(Game* G, Token* T, Slot* S){
 }
 
 int RookMove(Game* G, Token* T, Slot* S){
-    if(G->turn != T->color || S->occupied==1){
-        return 0;
-    } else {
-        switch (T->color){
-            case WHITE :
-                
-            case BLACK :
-
-        }
-    }
+    
 }
 
 int KnightMove(Game* G, Token* T, Slot* S){
-    if(G->turn != T->color || S->occupied==1){
-        return 0;
-    } else {
-        switch (T->color){
-            case WHITE :
-
-            case BLACK :
-            
-        }
-    }
+    
 }
 
 int BishopMove(Game* G, Token* T, Slot* S){
-    if(G->turn != T->color || S->occupied==1){
-        return 0;
-    } else {
-        switch (T->color){
-            case WHITE :
-
-            case BLACK :
-            
-        }
-    }
+    
 }
 
 int QueenMove(Game* G, Token* T, Slot* S){
-    if(G->turn != T->color || S->occupied==1){
-        return 0;
-    } else {
-        switch (T->color){
-            case WHITE :
-
-            case BLACK :
-            
-        }
-    }
+    
 }
 
 int KingMove(Game* G, Token* T, Slot* S){
-    if(G->turn != T->color || S->occupied==1){
-        return 0;
-    } else {
-        switch (T->color){
-            case WHITE :
-
-            case BLACK :
-            
-        }
-    }
+    
 }
 
 int CanMove(Game* G, Slot* S1, Slot* S2){
@@ -126,6 +86,10 @@ int CanMove(Game* G, Slot* S1, Slot* S2){
         case BK :
             return KingMove(G,T_,S2);
     }
+}
+
+void PlayTurn(Game* G, char* inputA, char* inputB){
+    return;
 }
 
 void TestGame(){

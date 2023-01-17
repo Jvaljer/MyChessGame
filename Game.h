@@ -11,6 +11,7 @@
 typedef struct Game{
     Board* board;
     Color turn;
+    Direction* direction;
 }Game;
 
 /*
@@ -20,17 +21,98 @@ typedef struct Game{
 Game* new_Game();
 
 /*
- * Test Moving for Tokens 
+ * Test Moving for ALL Tokens 
  * args : (G:Game*) (T:Token*) (S:Slot*)
  * result : 
  *      0 if T can't move on S (not right turn or not 
  *      a valid move)
  */
+
+/*  on .. if there's nothing on it
+        on .T if there's a token on it
+    ----------------
+    |    | .. |    |
+    -----------------
+    | .T | .. | .T |
+    -----------------
+    |    | P_ |    |
+    ----------------
+    */
 int PawnMove(Game* G, Token* T, Slot* S);
+
+/*  in both x & y direction as far as 
+        it can until there's a token on it
+    ---------------------
+    |    | .. |    |    |
+    ---------------------
+    |    | .. |    |    |
+    ---------------------
+    | .. | R_ | .. | .T |
+    ---------------------
+    */
 int RookMove(Game* G, Token* T, Slot* S);
+
+/*    on .. whatever there's on the board.
+    --------------------------
+    |    | .. |    | .. |    |
+    --------------------------
+    | .. |    |    |    | .. |
+    --------------------------
+    |    |    | K_ |    |    |
+    --------------------------
+    | .. |    |    |    | .. |
+    --------------------------
+    |    | .. |    | .. |    |
+    --------------------------
+    */
 int KnightMove(Game* G, Token* T, Slot* S);
+
+/*  in any diagonal until there's a token on the way
+    --------------------------
+    | .. |    |    |    |    |
+    --------------------------
+    |    | .. |    | .T |    |
+    --------------------------
+    |    |    | B_ |    |    |
+    --------------------------
+    |    | .. |    | .. |    |
+    --------------------------
+    | .. |    |    |    | .T |
+    --------------------------
+    */
 int BishopMove(Game* G, Token* T, Slot* S);
+
+/*    as a combination of a Rook & a Bishop
+        on any line/column or diagonal until there's a 
+        token on the slot.
+    --------------------------
+    | .. |    | .. |    |    |
+    --------------------------
+    |    | .. | .. | .T |    |
+    --------------------------
+    | .T | .. | Q_ | .. | .. |
+    --------------------------
+    |    | .. | .T | .. |    |
+    --------------------------
+    | .. |    | .. |    | .T |
+    --------------------------
+    */
 int QueenMove(Game* G, Token* T, Slot* S);
+
+/*    in any direction but only on a distance of 
+        one slot
+    --------------------------
+    |    |    |    |    |    |
+    --------------------------
+    |    | .. | .. | .. |    |
+    --------------------------
+    |    | .. | K_ | .. |    |
+    --------------------------
+    |    | .. | .. | .. |    |
+    --------------------------
+    |    |    |    |    |    |
+    --------------------------
+    */
 int KingMove(Game* G, Token* T, Slot* S);
 
 /*
@@ -40,6 +122,15 @@ int KingMove(Game* G, Token* T, Slot* S);
  *  using the actual G's board
  */
 int CanMove(Game* G, Slot* S1, Slot* S2);
+
+/*
+ * all script for a player's turn
+ * args : (G:Game*) (inputA:char*) (inputB:char*)
+ * result : 
+ *      depending on the user's input, A for starting slot
+ *      and B for ending slot
+ */
+void PlayTurn(Game* G, char* inputA, char* inputB);
 
 /*
  * Test Function for Game stuff

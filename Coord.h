@@ -10,6 +10,25 @@ typedef struct Coord{
     int y;
 } Coord;
 
+
+typedef struct Direction{
+    Coord* up;
+    Coord* down;
+    Coord* right;
+    Coord* left;
+    Coord* up_right;
+    Coord* up_left;
+    Coord* down_right;
+    Coord* down_left;
+}Direction;
+
+/*
+ * Direction Constructor
+ * args : None
+ * result : gives each direction its values
+ */
+Direction* new_Direction();
+
 /*
  * Coord Constructor
  * args : (i:int) (j:int)
