@@ -51,6 +51,7 @@ Token* FindToken(Board* B, Slot* S){
         }
     }
     //return new_Token(new_Slot(new_Coord(-1,-1)),KING,NONE);
+    printf("token wasn't found...\n");
     return NULL;
 }
 

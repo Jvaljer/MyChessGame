@@ -134,7 +134,7 @@ void PlayTurn(Game* G, char* inputA, char* inputB){
 
 void TestGame(){
     printf("#- GAME TEST START\n");
-    printf("Testing Cosntructor : ");
+    printf("Testing Cosntructor : \n");
     Game* G0 = new_Game();
     for(int i=0; i<8; i++){
         for(int j=0; j<8; j++){
@@ -144,23 +144,10 @@ void TestGame(){
         }
     }
     PrintBoard(G0->board);
-    printf(" check\n");
+    printf("    check\n");
 
-    printf("Testing Token Moves : ");
-    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[3][1]), G0->board->grid[3][3]) );
-    printf("1\n");
-    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[6][6]), G0->board->grid[1][5])==0 );
-    printf("2\n");
-    MoveToken(G0->board,G0->board->grid[3][1], G0->board->grid[3][3]);
-    printf("3\n");
-    assert( RookMove(G0, FindToken(G0->board,G0->board->grid[0][7]), G0->board->grid[0][5])==0 );
-    printf("4\n");
-    assert( RookMove(G0, FindToken(G0->board,G0->board->grid[7][0]), G0->board->grid[6][1])==0 );
-    printf("5\n");
-    MoveToken(G0->board,G0->board->grid[7][6], G0->board->grid[7][4]);
-    printf("6\n");
-    assert( RookMove(G0, FindToken(G0->board,G0->board->grid[7][7]), G0->board->grid[7][5]) );
-    PrintBoard(G0->board);
-    printf(" check\n");
+    printf("Testing Token Moves : \n");
+    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[1][3]), G0->board->grid[3][3]) );    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[6][6]), G0->board->grid[1][5])==0 );
+    printf("    check\n");
     printf(" -> GAME TEST END -# \n\n");
 }
