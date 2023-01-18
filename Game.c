@@ -37,23 +37,63 @@ int PawnMove(Game* G, Token* T, Slot* S){
 }
 
 int RookMove(Game* G, Token* T, Slot* S){
-    
+    if(G->turn != T->color || EqSlotP(T->slot,S) ){
+        return 0;
+    } else {
+        if(T->slot->coord->x==S->coord->x){
+            int i = T->slot->coord->x;
+            if(S->coord->y > T->slot->coord->y){
+                for(int j=T->slot->coord->y+1; j<=S->coord->y; j++){
+                    if(G->board->grid[i][j]->occupied==1){
+                        return 0;
+                    }
+                }
+                return 1;
+            } else {
+                for(int j=S->coord->y; j<T->slot->coord->y; j++){
+                    if(G->board->grid[i][j]->occupied==1){
+                        return 0;
+                    }
+                }
+                return 1;
+            }
+        } else if(T->slot->coord->y==S->coord->y){
+            int j = T->slot->coord->y;
+            if(S->coord->x > T->slot->coord->x){
+                for(int i=T->slot->coord->x+1; i<=S->coord->x; i++){
+                    if(G->board->grid[i][j]->occupied==1){
+                        return 0;
+                    }
+                }
+                return 1;
+            } else {
+                for(int i=S->coord->x; i<T->slot->coord->x; i++){
+                    if(G->board->grid[i][j]->occupied==1){
+                        return 0;
+                    }
+                }
+                return 1;
+            }
+        } else {
+            return 0;
+        }
+    }
 }
 
 int KnightMove(Game* G, Token* T, Slot* S){
-    
+    return 0;
 }
 
 int BishopMove(Game* G, Token* T, Slot* S){
-    
+    return 0;
 }
 
 int QueenMove(Game* G, Token* T, Slot* S){
-    
+    return 0;
 }
 
 int KingMove(Game* G, Token* T, Slot* S){
-    
+    return 0;
 }
 
 int CanMove(Game* G, Slot* S1, Slot* S2){
@@ -103,6 +143,23 @@ void TestGame(){
                 assert( G0->board->hands[i][j] != NULL );
         }
     }
+    PrintBoard(G0->board);
+    printf(" check\n");
+
+    printf("Testing Token Moves : ");
+    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[3][1]), G0->board->grid[3][3]) );
+    printf("1\n");
+    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[6][6]), G0->board->grid[1][5])==0 );
+    printf("2\n");
+    MoveToken(G0->board,G0->board->grid[3][1], G0->board->grid[3][3]);
+    printf("3\n");
+    assert( RookMove(G0, FindToken(G0->board,G0->board->grid[0][7]), G0->board->grid[0][5])==0 );
+    printf("4\n");
+    assert( RookMove(G0, FindToken(G0->board,G0->board->grid[7][0]), G0->board->grid[6][1])==0 );
+    printf("5\n");
+    MoveToken(G0->board,G0->board->grid[7][6], G0->board->grid[7][4]);
+    printf("6\n");
+    assert( RookMove(G0, FindToken(G0->board,G0->board->grid[7][7]), G0->board->grid[7][5]) );
     PrintBoard(G0->board);
     printf(" check\n");
     printf(" -> GAME TEST END -# \n\n");
