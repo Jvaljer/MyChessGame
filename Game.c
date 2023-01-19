@@ -12,25 +12,54 @@ Game* new_Game(){
 }
 
 int PawnMove(Game* G, Token* T, Slot* S){
-    if(G->turn != T->color){
+    if(G->turn != T->color || EqSlotP(T->slot,S) ){
         return 0;
     } else {
         switch (T->color){
             case WHITE :
-                if( (T->slot->coord->y == S->coord->y -1 || T->slot->coord->y == S->coord->y - 2) && T->slot->coord->x == S->coord->x ){
-                    return 1;
-                } else if( (T->slot->coord->x==S->coord->x +1 || T->slot->coord->x==S->coord->x -1) && T->slot->coord->y == S->coord->y -1){
-                    return 1;
+                if(T->slot->coord->y != S->coord->y){
+                    if(T->slot->coord->x != S->coord->x + 1){
+                        if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
+                            return 1;
+                        }
+                    } else {
+                        return 0;
+                    }
                 } else {
-                    return 0;
+                    int i = T->slot->coord->y;
+                    if(T->slot->coord->x < S->coord->x){
+                        for(int j=T->slot->coord->x+1; j<=S->coord->x; j++){
+                            if(G->board->grid[i][j]->occupied==1){
+                                return 0;
+                            }
+                        }
+                        return 1;
+                    } else {
+                        return 0;
+                    }
                 }
             case BLACK :
-                if( (T->slot->coord->y == S->coord->y +1 || T->slot->coord->y == S->coord->y +2) && T->slot->coord->x == S->coord->x ){
-                    return 1;
-                } else if( (T->slot->coord->x==S->coord->x -1 || T->slot->coord->x==S->coord->x +1) && T->slot->coord->y == S->coord->y +1){
-                    return 1;
+                if(T->slot->coord->x != S->coord->x){
+                    if(T->slot->coord->y != S->coord->y - 1){
+                        if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
+                            return 1;
+                        }
+                    } else {
+                        return 0;
+                    }
                 } else {
-                    return 0;
+                    int i = T->slot->coord->y;
+                    if(T->slot->coord->y > S->coord->y){
+
+                        for(int j=S->coord->y; j<T->slot->coord->y; j++){
+                            if(G->board->grid[i][j]->occupied==1){
+                                return 0;
+                            }
+                        }
+                        return 1;
+                    } else {
+                        return 0;
+                    }
                 }
         }
     }
@@ -147,7 +176,8 @@ void TestGame(){
     printf("    check\n");
 
     printf("Testing Token Moves : \n");
-    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[1][3]), G0->board->grid[3][3]) );    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[6][6]), G0->board->grid[1][5])==0 );
+    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[1][3]), G0->board->grid[3][3]) );    
+    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[6][6]), G0->board->grid[1][5])==0 );
     printf("    check\n");
     printf(" -> GAME TEST END -# \n\n");
 }
