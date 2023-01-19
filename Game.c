@@ -161,6 +161,16 @@ void PlayTurn(Game* G, char* inputA, char* inputB){
     return;
 }
 
+void ChangeTurn(Game* G){
+    switch (G->turn){
+        case BLACK :
+            G->turn = WHITE;
+        case WHITE :
+            G->turn = BLACK;
+    }
+    return;
+}
+
 void TestGame(){
     printf("#- GAME TEST START\n");
     printf("Testing Cosntructor : \n");
@@ -175,9 +185,17 @@ void TestGame(){
     PrintBoard(G0->board);
     printf("    check\n");
 
-    printf("Testing Token Moves : \n");
+    printf("Testing Pawn Moves : \n");
     assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[1][3]), G0->board->grid[3][3]) );    
     assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[6][6]), G0->board->grid[1][5])==0 );
+    MoveToken( G0->board,  FindToken(G0->board,G0->board->grid[1][3])->slot, G0->board->grid[5][3] );
+    ChangeTurn(G0);
+    assert( PawnMove(G0, FindToken(G0->board, G0->board->grid[6][2]), G0->board->grid[5][3])==1 );
     printf("    check\n");
+
+    printf("Testing Rook Moves : \n");
+
+    printf("    check\n");
+
     printf(" -> GAME TEST END -# \n\n");
 }

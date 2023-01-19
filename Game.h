@@ -132,6 +132,14 @@ int CanMove(Game* G, Slot* S1, Slot* S2);
  */
 void PlayTurn(Game* G, char* inputA, char* inputB);
 
+
+/*
+ * changing player's turn 
+ * args : (G:Game*)
+ * result : switchs G->turn to WHITE if BLACK & to BLACK if WHITE
+ */
+void ChangeTurn(Game* G);
+
 /*
  * Test Function for Game stuff
  * args : None
