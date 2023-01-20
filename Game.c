@@ -17,7 +17,9 @@ int PawnMove(Game* G, Token* T, Slot* S){
     } else {
         switch (T->color){
             case WHITE :
+                printf("case White\n");
                 if(T->slot->coord->y != S->coord->y){
+                    printf("y not the same : %d | %d\n", T->slot->coord->y, S->coord->y);
                     if(T->slot->coord->x != S->coord->x + 1){
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
                             return 1;
@@ -26,6 +28,7 @@ int PawnMove(Game* G, Token* T, Slot* S){
                         return 0;
                     }
                 } else {
+                    printf("Same y : %d | %d\n", T->slot->coord->y, S->coord->y);
                     int i = T->slot->coord->y;
                     if(T->slot->coord->x < S->coord->x){
                         for(int j=T->slot->coord->x+1; j<=S->coord->x; j++){
@@ -39,8 +42,11 @@ int PawnMove(Game* G, Token* T, Slot* S){
                     }
                 }
             case BLACK :
+                printf("case Black\n");
                 if(T->slot->coord->x != S->coord->x){
+                    printf("y not the same : %d | %d\n", T->slot->coord->y, S->coord->y);
                     if(T->slot->coord->y != S->coord->y - 1){
+                        printf("S occupied -> %d\n", S->occupied);
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
                             return 1;
                         }
@@ -48,6 +54,7 @@ int PawnMove(Game* G, Token* T, Slot* S){
                         return 0;
                     }
                 } else {
+                    printf("Same y : %d | %d\n", T->slot->coord->y, S->coord->y);
                     int i = T->slot->coord->y;
                     if(T->slot->coord->y > S->coord->y){
 
@@ -164,11 +171,12 @@ void PlayTurn(Game* G, char* inputA, char* inputB){
 void ChangeTurn(Game* G){
     switch (G->turn){
         case BLACK :
+            printf("Actually black's turn\n");
             G->turn = WHITE;
         case WHITE :
+            printf("Actually white's turn\n");
             G->turn = BLACK;
     }
-    return;
 }
 
 void TestGame(){
@@ -190,6 +198,7 @@ void TestGame(){
     assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[6][6]), G0->board->grid[1][5])==0 );
     MoveToken( G0->board,  FindToken(G0->board,G0->board->grid[1][3])->slot, G0->board->grid[5][3] );
     ChangeTurn(G0);
+    assert(G0->turn == BLACK);
     assert( PawnMove(G0, FindToken(G0->board, G0->board->grid[6][2]), G0->board->grid[5][3])==1 );
     printf("    check\n");
 
