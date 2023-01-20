@@ -43,10 +43,9 @@ int PawnMove(Game* G, Token* T, Slot* S){
                 }
             case BLACK :
                 printf("case Black\n");
-                if(T->slot->coord->x != S->coord->x){
+                if(T->slot->coord->y != S->coord->y){
                     printf("y not the same : %d | %d\n", T->slot->coord->y, S->coord->y);
-                    if(T->slot->coord->y != S->coord->y - 1){
-                        printf("S occupied -> %d\n", S->occupied);
+                    if(T->slot->coord->x != S->coord->x + 1){
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
                             return 1;
                         }
@@ -56,9 +55,8 @@ int PawnMove(Game* G, Token* T, Slot* S){
                 } else {
                     printf("Same y : %d | %d\n", T->slot->coord->y, S->coord->y);
                     int i = T->slot->coord->y;
-                    if(T->slot->coord->y > S->coord->y){
-
-                        for(int j=S->coord->y; j<T->slot->coord->y; j++){
+                    if(T->slot->coord->x > S->coord->x){
+                        for(int j=S->coord->x; j<T->slot->coord->x; j++){
                             if(G->board->grid[i][j]->occupied==1){
                                 return 0;
                             }
@@ -194,16 +192,20 @@ void TestGame(){
     printf("    check\n");
 
     printf("Testing Pawn Moves : \n");
-    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[1][3]), G0->board->grid[3][3]) );    
+    assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[1][3]), G0->board->grid[3][3])==1 );    
     assert( PawnMove(G0,FindToken(G0->board,G0->board->grid[6][6]), G0->board->grid[1][5])==0 );
-    MoveToken( G0->board,  FindToken(G0->board,G0->board->grid[1][3])->slot, G0->board->grid[5][3] );
-    ChangeTurn(G0);
-    assert(G0->turn == BLACK);
-    assert( PawnMove(G0, FindToken(G0->board, G0->board->grid[6][2]), G0->board->grid[5][3])==1 );
+    MoveToken( G0->board,  FindToken(G0->board,G0->board->grid[6][2])->slot, G0->board->grid[2][4] );
+    assert( PawnMove(G0, FindToken(G0->board, G0->board->grid[1][3]), G0->board->grid[2][4])==1 );
     printf("    check\n");
 
-    printf("Testing Rook Moves : \n");
+    ChangeTurn(G0);
+    assert(G0->turn == BLACK);
 
+    printf("Testing Rook Moves : \n");
+    MoveToken( G0->board, FindToken(G0->board, G0->board->grid[6][7])->slot, G0->board->grid[5][0] );
+    assert( RookMove(G0, FindToken(G0->board, G0->board->grid[7][7]), G0->board->grid[3][7])==1 );
+    assert( RookMove(G0, FindToken(G0->board, G0->board->grid[0][7]), G0->board->grid[4][7])==0 );
+    PrintBoard(G0->board);
     printf("    check\n");
 
     printf(" -> GAME TEST END -# \n\n");

@@ -3,7 +3,7 @@
 CC=gcc     #used compiler
 TRGT=main  #target file name (executable)
 
-all:
+compile:
 	$(CC) -o $(TRGT) main.c Coord.c Slot.c Token.c Board.c Game.c Coord.h Slot.h Token.h Board.h Game.h 
 
 clean:

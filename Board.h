@@ -70,6 +70,14 @@ void MoveToken(Board* B, Slot* S1, Slot* S2);
 void TakeToken(Board* B, Slot* S);
 
 /*
+ * Reset Board Function
+ * args : (B:Board*)
+ * result : Sets all pieces back to their initial position, as if 
+ *      B was just created.
+ */
+void Reinitialize(Board* B);
+
+/*
  * Test Function for Board stuff
  * args : None
  * result : nothing if all assertion true

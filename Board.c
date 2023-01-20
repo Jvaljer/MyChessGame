@@ -80,6 +80,9 @@ void MoveToken(Board* B, Slot* S1, Slot* S2){
     S2->occupied = 1;
 }
 
+void Reinitialize(Board* B){
+    //must implement
+}
 
 void TakeToken(Board* B, Slot* S){
     Token* T_ = FindToken(B,S);
