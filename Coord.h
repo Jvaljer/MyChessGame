@@ -10,7 +10,9 @@ typedef struct Coord{
     int y;
 } Coord;
 
-
+/*
+ * Direction are all the possible (x,y) couples that can increment an actual coord
+ */
 typedef struct Direction{
     Coord* up;
     Coord* down;

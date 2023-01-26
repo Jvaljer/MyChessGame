@@ -17,9 +17,7 @@ int PawnMove(Game* G, Token* T, Slot* S){
     } else {
         switch (T->color){
             case WHITE :
-                printf("case White\n");
                 if(T->slot->coord->y != S->coord->y){
-                    printf("y not the same : %d | %d\n", T->slot->coord->y, S->coord->y);
                     if(T->slot->coord->x != S->coord->x + 1){
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
                             return 1;
@@ -28,7 +26,6 @@ int PawnMove(Game* G, Token* T, Slot* S){
                         return 0;
                     }
                 } else {
-                    printf("Same y : %d | %d\n", T->slot->coord->y, S->coord->y);
                     int i = T->slot->coord->y;
                     if(T->slot->coord->x < S->coord->x){
                         for(int j=T->slot->coord->x+1; j<=S->coord->x; j++){
@@ -42,9 +39,7 @@ int PawnMove(Game* G, Token* T, Slot* S){
                     }
                 }
             case BLACK :
-                printf("case Black\n");
                 if(T->slot->coord->y != S->coord->y){
-                    printf("y not the same : %d | %d\n", T->slot->coord->y, S->coord->y);
                     if(T->slot->coord->x != S->coord->x + 1){
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
                             return 1;
@@ -53,7 +48,6 @@ int PawnMove(Game* G, Token* T, Slot* S){
                         return 0;
                     }
                 } else {
-                    printf("Same y : %d | %d\n", T->slot->coord->y, S->coord->y);
                     int i = T->slot->coord->y;
                     if(T->slot->coord->x > S->coord->x){
                         for(int j=S->coord->x; j<T->slot->coord->x; j++){
@@ -207,6 +201,18 @@ void TestGame(){
     assert( RookMove(G0, FindToken(G0->board, G0->board->grid[0][7]), G0->board->grid[4][7])==0 );
     PrintBoard(G0->board);
     printf("    check\n");
+
+    printf("Testing Knight Moves : \n");
+    printf(" not implemented yet\n ");
+
+    printf("Testing Bishop Moves : \n");
+    printf(" not implemented yet\n ");
+
+    printf("Testing Queen Moves : \n");
+    printf(" not implemented yet\n ");
+
+    printf("Testing King Moves : \n");
+    printf(" not implemented yet\n ");
 
     printf(" -> GAME TEST END -# \n\n");
 }

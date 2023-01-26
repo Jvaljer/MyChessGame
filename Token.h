@@ -39,6 +39,11 @@ typedef struct Token{
  */
 Id make_Id(Role R, Color C);
 
+/*
+ * Id to Str
+ * args : (id:Id)
+ * result : returns the char value of 'id'
+ */
 char* Id_to_str(Id id);
 
 /*
