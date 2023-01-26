@@ -128,10 +128,21 @@ int CanMove(Game* G, Slot* S1, Slot* S2);
  * args : (G:Game*) (inputA:char*) (inputB:char*)
  * result : 
  *      depending on the user's input, A for starting slot
- *      and B for ending slot
+ *      and B for ending slot, that's were we are gonna call 
+ *      the moves & test if they are valid depending on other
+ *      rules than just allowed slots to move on.
  */
 void PlayTurn(Game* G, char* inputA, char* inputB);
 
+/*
+ * valid move testing method  
+ * args: (G:Game*) (S1:Slot*) (S2:Slot*)
+ * result: 
+ *      returns 1 if the given move from S1 to S2 is valid 
+ *      durign the current G game (slot is occupied by ally 
+ *      token, move respects described possible slots ...)
+ */
+int ValidMove(Game* G, Slot* S1, Slot* S2);
 
 /*
  * changing player's turn 

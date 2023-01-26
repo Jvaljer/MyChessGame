@@ -109,7 +109,33 @@ int RookMove(Game* G, Token* T, Slot* S){
 }
 
 int KnightMove(Game* G, Token* T, Slot* S){
-    return 0;
+    if(G->turn != T->color || EqSlotP(T->slot,S) ){
+        return 0;
+    } else {
+        int X = T->slot->coord->x;
+        int Y = T->slot->coord->y;
+        //if knight is on (0,0) he can move on 
+            // (1,2) (2,1) -down right corner-
+            // (-1,2) (-2,1) -down left corner'
+            // (1,-2) (2,-1) -up right corner-
+            // (-1,-2) (-2,-1) -up left corner-
+        //gonna test each corner at time 
+        if( (S->coord->x+1==X && S->coord->y+2==Y) || (S->coord->x+2==X && S->coord->y+1==Y) ){
+            //we are in the down right corner 
+            return 1;
+        } else if( (S->coord->x-1==X && S->coord->y+2==Y) || (S->coord->x-2==X && S->coord->y+1==Y) ){
+            //we are in the down left corner
+            return 1;
+        } else if( (S->coord->x+1==X && S->coord->y-2==Y) || (S->coord->x+2==X && S->coord->y-1==Y) ){
+            //we are in the up right corner
+            return 1;
+        } else if( (S->coord->x-1==X && S->coord->y-2==Y) || (S->coord->x-2==X && S->coord->y-1==Y) ){
+            //we are in the up left corner
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }
 
 int BishopMove(Game* G, Token* T, Slot* S){
@@ -160,6 +186,10 @@ void PlayTurn(Game* G, char* inputA, char* inputB){
     return;
 }
 
+int ValidMove(Game* G, Slot* S1, Slot* S2){
+    return 0;
+}
+
 void ChangeTurn(Game* G){
     switch (G->turn){
         case BLACK :
@@ -199,11 +229,12 @@ void TestGame(){
     MoveToken( G0->board, FindToken(G0->board, G0->board->grid[6][7])->slot, G0->board->grid[5][0] );
     assert( RookMove(G0, FindToken(G0->board, G0->board->grid[7][7]), G0->board->grid[3][7])==1 );
     assert( RookMove(G0, FindToken(G0->board, G0->board->grid[0][7]), G0->board->grid[4][7])==0 );
+    MoveToken( G0->board, FindToken(G0->board, G0->board->grid[7][7])->slot, G0->board->grid[3][7]);
     PrintBoard(G0->board);
     printf("    check\n");
 
     printf("Testing Knight Moves : \n");
-    printf(" not implemented yet\n ");
+    printf(" asserts not implemented yet\n ");
 
     printf("Testing Bishop Moves : \n");
     printf(" not implemented yet\n ");
