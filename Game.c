@@ -139,7 +139,64 @@ int KnightMove(Game* G, Token* T, Slot* S){
 }
 
 int BishopMove(Game* G, Token* T, Slot* S){
-    return 0;
+    printf("entering BishopMove\n");
+    if(G->turn != T->color || EqSlotP(T->slot,S) ){
+        printf("not right turn\n");
+        return 0;
+    } else {
+        printf("right turn\n");
+        int X = T->slot->coord->x;
+        int Y = T->slot->coord->y;
+        //we wanna go in one of the fourth diagonal
+            //up right -> x+ & y-
+            //up left -> x- & y-
+            //down right -> x+ & y+
+            //down left -> x- & y+
+        if(S->coord->x > X && S->coord->y < Y){
+            printf("up right direction\n");
+            //up right direction
+            int dist = Y - S->coord->y;
+            for(int n=1; n<=dist; n++){
+                if(G->board->grid[X+n][Y-n]->occupied){
+                    return EqSlotP(G->board->grid[X+n][Y-n],S);
+                }
+            }
+            return 1;
+        } else if(S->coord->x < X && S->coord->y < Y){
+            printf("up left direction\n");
+            //up left direction
+            int dist = Y - S->coord->y;
+            for(int n=1; n<=dist; n++){
+                if(G->board->grid[X-n][Y-n]->occupied){
+                    return EqSlotP(G->board->grid[X-n][Y-n],S);
+                }
+            }
+            return 1;
+        } else if(S->coord->x > X && S->coord->y > Y){
+            printf("down right direction\n");
+            //down right direction
+            int dist = S->coord->y - Y;
+            for(int n=1; n<=dist; n++){
+                if(G->board->grid[X+n][Y+n]->occupied){
+                    return EqSlotP(G->board->grid[X+n][Y+n],S);
+                }
+            }
+            return 1;
+        } else if(S->coord->x < X && S->coord->y > Y){
+            printf("down left direction\n");
+            //down left direction
+            int dist = S->coord->y - Y;
+            for(int n=1; n<=dist; n++){
+                if(G->board->grid[X-n][Y+n]->occupied){
+                    return EqSlotP(G->board->grid[X-n][Y+n],S);
+                }
+            }
+            return 1;
+        } else {
+            //nothing valid...
+            return 0;
+        }
+    }
 }
 
 int QueenMove(Game* G, Token* T, Slot* S){
@@ -193,11 +250,11 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
 void ChangeTurn(Game* G){
     switch (G->turn){
         case BLACK :
-            printf("Actually black's turn\n");
             G->turn = WHITE;
+            return;
         case WHITE :
-            printf("Actually white's turn\n");
             G->turn = BLACK;
+            return;
     }
 }
 
@@ -234,10 +291,21 @@ void TestGame(){
     printf("    check\n");
 
     printf("Testing Knight Moves : \n");
-    printf(" asserts not implemented yet\n ");
+    ChangeTurn(G0);
+    assert(G0->turn == WHITE);
+
+    assert( KnightMove(G0, FindToken(G0->board, G0->board->grid[0][1]), G0->board->grid[2][2])==1 );
+    assert( KnightMove(G0, FindToken(G0->board, G0->board->grid[0][1]), G0->board->grid[2][0])==1 );
+    MoveToken( G0->board, FindToken(G0->board, G0->board->grid[0][1])->slot, G0->board->grid[2][2]);
+    assert( KnightMove(G0, FindToken(G0->board, G0->board->grid[2][2]), G0->board->grid[3][4])==1 );
+    assert( KnightMove(G0, FindToken(G0->board, G0->board->grid[2][2]), G0->board->grid[3][0])==1 );
+    printf("    check\n ");
 
     printf("Testing Bishop Moves : \n");
-    printf(" not implemented yet\n ");
+    assert( BishopMove(G0, FindToken(G0->board, G0->board->grid[0][5]), G0->board->grid[3][2])==0 );
+    MoveToken( G0->board, FindToken(G0->board, G0->board->grid[1][6])->slot, G0->board->grid[2][6]);
+    assert( BishopMove(G0, FindToken(G0->board, G0->board->grid[0][5]), G0->board->grid[2][7])==1 );
+    printf("    check\n ");
 
     printf("Testing Queen Moves : \n");
     printf(" not implemented yet\n ");
