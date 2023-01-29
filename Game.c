@@ -139,12 +139,9 @@ int KnightMove(Game* G, Token* T, Slot* S){
 }
 
 int BishopMove(Game* G, Token* T, Slot* S){
-    printf("entering BishopMove\n");
     if(G->turn != T->color || EqSlotP(T->slot,S) ){
-        printf("not right turn\n");
         return 0;
     } else {
-        printf("right turn\n");
         int X = T->slot->coord->x;
         int Y = T->slot->coord->y;
         //we wanna go in one of the fourth diagonal
@@ -153,7 +150,6 @@ int BishopMove(Game* G, Token* T, Slot* S){
             //down right -> x+ & y+
             //down left -> x- & y+
         if(S->coord->x > X && S->coord->y < Y){
-            printf("up right direction\n");
             //up right direction
             int dist = Y - S->coord->y;
             for(int n=1; n<=dist; n++){
@@ -163,7 +159,6 @@ int BishopMove(Game* G, Token* T, Slot* S){
             }
             return 1;
         } else if(S->coord->x < X && S->coord->y < Y){
-            printf("up left direction\n");
             //up left direction
             int dist = Y - S->coord->y;
             for(int n=1; n<=dist; n++){
@@ -173,7 +168,6 @@ int BishopMove(Game* G, Token* T, Slot* S){
             }
             return 1;
         } else if(S->coord->x > X && S->coord->y > Y){
-            printf("down right direction\n");
             //down right direction
             int dist = S->coord->y - Y;
             for(int n=1; n<=dist; n++){
@@ -183,7 +177,6 @@ int BishopMove(Game* G, Token* T, Slot* S){
             }
             return 1;
         } else if(S->coord->x < X && S->coord->y > Y){
-            printf("down left direction\n");
             //down left direction
             int dist = S->coord->y - Y;
             for(int n=1; n<=dist; n++){
@@ -200,11 +193,44 @@ int BishopMove(Game* G, Token* T, Slot* S){
 }
 
 int QueenMove(Game* G, Token* T, Slot* S){
-    return 0;
+    if(RookMove(G, T, S)){
+        return 1;
+    } else if(BishopMove(G, T, S)){
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 int KingMove(Game* G, Token* T, Slot* S){
-    return 0;
+    if(G->turn != T->color || EqSlotP(T->slot,S) ){
+        return 0;
+    }
+    int X = T->slot->coord->x;
+    int Y = T->slot->coord->y;
+    //8 possible moves for (0,0)
+        //(0,1) (1,0) (0,-1) (-1,0)
+        //(1,-1) (-1,1) (1,1) (-1,-1)
+    if(S->coord->x==X+1 && S->coord->y==Y){
+        return 1;
+    } else if(S->coord->x==X-1 && S->coord->y==Y){
+        return 1;
+    } else if(S->coord->x==X && S->coord->y==Y+1){
+    return 1;
+    } else if(S->coord->x==X && S->coord->y==Y-1){
+        return 1;
+    } else if(S->coord->x==X+1 && S->coord->y==Y+1){
+        return 1;
+    } else if(S->coord->x==X-1 && S->coord->y==Y-1){
+        return 1;
+    } else if(S->coord->x==X+1 && S->coord->y==Y-1){
+        return 1;
+    } else if(S->coord->x==X-1 && S->coord->y==Y+1){
+        return 1;
+    } else {
+        //nothing valid
+        return 0;
+    }
 }
 
 int CanMove(Game* G, Slot* S1, Slot* S2){
@@ -308,10 +334,10 @@ void TestGame(){
     printf("    check\n ");
 
     printf("Testing Queen Moves : \n");
-    printf(" not implemented yet\n ");
+    printf("    must test\n ");
 
     printf("Testing King Moves : \n");
-    printf(" not implemented yet\n ");
+    printf("    must test\n ");
 
     printf(" -> GAME TEST END -# \n\n");
 }
