@@ -265,12 +265,36 @@ int CanMove(Game* G, Slot* S1, Slot* S2){
     }
 }
 
-void PlayTurn(Game* G, char* inputA, char* inputB){
-    return;
+void Play(Game* G, char* inputA, char* inputB){
+    //first we wanna 'translate' the inputs to coords
+    Coord* CA;
+    Coord* CB;
+    switch (inputA[0]){
+        
+    }
 }
 
 int ValidMove(Game* G, Slot* S1, Slot* S2){
+    //must implement
     return 0;
+}
+
+char* GetInput(int i){
+    char* input;
+    if(i==0){
+         printf("Start Slot :\n");
+    } else if(i==1){
+        printf("End Slot :\n");
+    } else {
+        printf("error...");
+        return "";
+    }
+    scanf("%s", input);
+    return input;
+}
+
+void Turn(){
+    //must implement
 }
 
 void ChangeTurn(Game* G){

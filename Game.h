@@ -132,7 +132,7 @@ int CanMove(Game* G, Slot* S1, Slot* S2);
  *      the moves & test if they are valid depending on other
  *      rules than just allowed slots to move on.
  */
-void PlayTurn(Game* G, char* inputA, char* inputB);
+void Play(Game* G, char* inputA, char* inputB);
 
 /*
  * valid move testing method  
@@ -143,6 +143,10 @@ void PlayTurn(Game* G, char* inputA, char* inputB);
  *      token, move respects described possible slots ...)
  */
 int ValidMove(Game* G, Slot* S1, Slot* S2);
+
+char* GetInput(int i);
+
+void Turn();
 
 /*
  * changing player's turn 
