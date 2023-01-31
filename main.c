@@ -11,7 +11,8 @@ int main(int argc, char* argv){
     //TestSlot(); 
     //TestToken(); 
     //TestBoard(); 
-    TestGame();
-
+    
+    //TestGame();
+    TestPlaying();
     return 0;
 }

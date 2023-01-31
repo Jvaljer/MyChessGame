@@ -124,17 +124,6 @@ int KingMove(Game* G, Token* T, Slot* S);
 int CanMove(Game* G, Slot* S1, Slot* S2);
 
 /*
- * all script for a player's turn
- * args : (G:Game*) (inputA:char*) (inputB:char*)
- * result : 
- *      depending on the user's input, A for starting slot
- *      and B for ending slot, that's were we are gonna call 
- *      the moves & test if they are valid depending on other
- *      rules than just allowed slots to move on.
- */
-void Play(Game* G, char* inputA, char* inputB);
-
-/*
  * valid move testing method  
  * args: (G:Game*) (S1:Slot*) (S2:Slot*)
  * result: 
@@ -144,8 +133,18 @@ void Play(Game* G, char* inputA, char* inputB);
  */
 int ValidMove(Game* G, Slot* S1, Slot* S2);
 
-char* GetInput(int i);
-
+/*
+ * Turn behaviour method
+ * args: None
+ * result: 
+ *      dictates how a turn must be, so calls for the wanted methods
+ *      at the right time, in the good order :
+ *         first the player must enter his inputs
+ *         then we wanna analyze them and get the coords 
+ *           he was meaning to play with
+ *         after that we make the wanted moves if possible,
+ *         and finally 
+ */
 void Turn();
 
 /*
@@ -162,5 +161,13 @@ void ChangeTurn(Game* G);
  *          error if an assertion false
  */
 void TestGame();
+
+/*
+ * Test function for the Playing stuff (part of game)
+ * args: None
+ * result: nothing if all assertion true
+ *         error if one or more assertion false
+ */
+void TestPlaying();
 
 #endif
