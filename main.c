@@ -12,9 +12,6 @@ int main(int argc, char* argv){
     //TestToken(); 
     //TestBoard(); 
     TestGame();
-    /*
-     * Core section
-     */
 
     return 0;
 }
