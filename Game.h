@@ -143,8 +143,19 @@ int PinCheck(Game* G, Slot* S);
 int ValidMove(Game* G, Slot* S1, Slot* S2);
 
 /*
+ * input checking method
+ * args: (input:char)
+ * result: 
+ *      1 if the input is well as 'letter + digit' 
+ *      0 if not.
+ */
+int ValidInput(char input[2]);
+
+Coord* GetCoordFromInput(char input[2]);
+
+/*
  * Turn behaviour method
- * args: None
+ * args: (g:Game*)
  * result: 
  *      dictates how a turn must be, so calls for the wanted methods
  *      at the right time, in the good order :
@@ -154,7 +165,7 @@ int ValidMove(Game* G, Slot* S1, Slot* S2);
  *         after that we make the wanted moves if possible,
  *         and finally 
  */
-void Turn();
+void Turn(Game* G);
 
 /*
  * changing player's turn 
