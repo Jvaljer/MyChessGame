@@ -124,6 +124,15 @@ int KingMove(Game* G, Token* T, Slot* S);
 int CanMove(Game* G, Slot* S1, Slot* S2);
 
 /*
+ * Pin Checking method
+ * args: (G:Game*) (S:Slot*) 
+ * result: 
+ *      1 if the S1's token isn't pinned on the G game
+ *      0 if it is.
+ */
+int PinCheck(Game* G, Slot* S);
+
+/*
  * valid move testing method  
  * args: (G:Game*) (S1:Slot*) (S2:Slot*)
  * result: 

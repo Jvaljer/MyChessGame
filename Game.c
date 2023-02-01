@@ -265,9 +265,29 @@ int CanMove(Game* G, Slot* S1, Slot* S2){
     }
 }
 
-int ValidMove(Game* G, Slot* S1, Slot* S2){
+int PinCheck(Game* G, Slot* S){
     //must implement
-    return 0;
+    return 1;
+}
+
+int ValidMove(Game* G, Slot* S1, Slot* S2){
+    //here we just wanna check if S2 isn't occupied by an ally token
+    //later on we'll add the 'Pin' checker
+    Token* T1 = FindToken(G->board,S1);
+    Token* T2;
+    if(S2->occupied){
+        T2 = FindToken(G->board,S2);
+        if(T1->color == T2->color){
+            return 0;
+        }
+    }
+
+    if(PinCheck(G,S1)==0){
+        prinf("Cannot do this move, you're pinned\n");
+        return 0;
+    }
+
+    return 1;
 }
 
 void Turn(){
