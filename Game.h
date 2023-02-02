@@ -151,6 +151,14 @@ int ValidMove(Game* G, Slot* S1, Slot* S2);
  */
 int ValidInput(char input[2]);
 
+/*
+ * getter for coordinates from a certain input
+ * args: (input: char[2])
+ * result: 
+ *      returns the corresponding coordinates associated to the given input 
+ *      (letter-digit) -> (column-line) -> allows to access the corresponding slot
+   (letter-digit) -> (column-line) -> allows to access the corresponding slot
+ */
 Coord* GetCoordFromInput(char input[2]);
 
 /*

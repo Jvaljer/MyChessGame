@@ -313,8 +313,51 @@ int ValidInput(char input[2]){
 }
 
 Coord* GetCoordFromInput(char input[2]){
-    //must implement
-    return "";
+    char fst = input[0];
+    char snd = input[1];
+
+    int x;
+    int y;
+    switch (fst){
+        case 'a':
+            y = 0;
+        case 'b':
+            y = 1;
+        case 'c':
+            y = 2;
+        case 'd':
+            y = 3;
+        case 'e':
+            y = 4;
+        case 'f':
+            y = 5;
+        case 'g':
+            y = 6;
+        case 'h':
+            y = 7;
+    }
+
+    switch (snd){
+        case '1':
+            x = 0;
+        case '2':
+            x = 1;
+        case '3':
+            x = 2;
+        case '4':
+            x = 3;
+        case '5':
+            x = 4;
+        case '6':
+            x = 5;
+        case '7':
+            x = 6;
+        case '8':
+            x = 7;
+    }
+
+    Coord* coord = new_Coord(x,y);
+    return coord;
 }
 
 void Turn(Game* G){
