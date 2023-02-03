@@ -284,7 +284,7 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
     }
 
     if(PinCheck(G,S1)==0){
-        prinf("Cannot do this move, you're pinned\n");
+        printf("Cannot do this move, you're pinned\n");
         return 0;
     }
 
@@ -473,5 +473,7 @@ void TestGame(){
 }
 
 void TestPlaying(){
-    return;
+    Game* G = new_Game();
+    PrintBoard(G->board);
+    Turn(G);
 }
