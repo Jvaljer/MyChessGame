@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Game.h"
+#include "Turn.h"
 
 int main(int argc, char* argv){
     /*
@@ -13,6 +13,6 @@ int main(int argc, char* argv){
     //TestBoard(); 
     
     //TestGame();
-    TestPlaying();
+    TestTurn();
     return 0;
 }
