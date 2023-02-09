@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "coord.h": "c",
-        "vector": "c"
+        "vector": "c",
+        "stdio.h": "c"
     }
 }

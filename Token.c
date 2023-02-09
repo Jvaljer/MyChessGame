@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <unistd.h>
+#include <wchar.h>
+#include <locale.h>
 #include "Token.h"
 
 Id make_Id(Role R, Color C){
@@ -66,6 +69,50 @@ char* Id_to_str(Id id){
             return "wQ";
         case WK :
             return "WK";
+    }
+}
+
+wchar_t Id_to_unicode(Id id){
+    wchar_t uni;
+    switch (id){
+        //black tokens
+        case bP :
+            uni = 0x265F;
+            return uni;
+        case bR :
+            uni = 0x265C;
+            return uni;
+        case bK :
+            uni = 0x265E;
+            return uni;
+        case bB :
+            uni = 0x265D;
+            return uni;
+        case bQ :
+            uni = 0x265B;
+            return uni;
+        case BK :
+            uni = 0x265A;
+            return uni;
+        //white tokens
+        case wP :
+            uni = 0x2659;
+            return uni;
+        case wR :
+            uni = 0x2656;
+            return uni;
+        case wK :
+            uni = 0x2658;
+            return uni;
+        case wB :
+            uni = 0x2657;
+            return uni;
+        case wQ :
+            uni = 0x2655;
+            return uni;
+        case WK :
+            uni = 0x2654;
+            return uni;
     }
 }
 

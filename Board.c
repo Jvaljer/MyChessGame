@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <wchar.h>
+#include <locale.h>
 #include "Board.h"
 
 Board* new_Board(){
@@ -64,6 +66,9 @@ void PrintBoard(Board* B){
             if(B->grid[i][j]->occupied){
                 Token* T_ = FindToken(B,B->grid[i][j]);
                 printf("%s ", Id_to_str(T_->id));
+                /*setlocale(LC_CTYPE, "");
+                wchar_t uni = Id_to_unicode(T_->id);
+                wprintf(L"%lc", uni); */
             } else {
                 printf("   ");
             }

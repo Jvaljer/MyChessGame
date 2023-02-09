@@ -1,6 +1,9 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+#include <wchar.h>
+#include <locale.h>
+
 #include "Slot.h"
 
 /*
@@ -45,6 +48,14 @@ Id make_Id(Role R, Color C);
  * result : returns the char value of 'id'
  */
 char* Id_to_str(Id id);
+
+/*
+ * Id to Unicode (wchar_t)
+ * args : (id:Id)
+ * result : returns the unicode character corresponding to the 
+ *          given Id.
+ */
+wchar_t Id_to_unicode(Id id);
 
 /*
  * Token Constructor
