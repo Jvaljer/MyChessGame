@@ -1,16 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <wchar.h>
 #include <locale.h>
 
-wchar_t uni_test(int n);
+void uni_test(int n);
 
 int main() {
     setlocale(LC_CTYPE, "");
-    /*
-    wchar_t star = 0x2605;
-    wprintf(L"%lc\n", star);
-    */
-
+/*
     wchar_t wP = 0x265F;
     wprintf(L"%lc\n", wP);
 
@@ -19,22 +16,15 @@ int main() {
 
     wchar_t bK = 0x2658;
     wprintf(L"%lc \n", bK);
+ */
+    wchar_t _1 = 0x265A;
+    wchar_t _2 = 0x265B;
+    wchar_t _3 = 0x265C;
+    wchar_t _4 = 0x265D;
+    wchar_t _5 = 0x265E;
+    wchar_t _6 = 0x265F;
 
-    wchar_t test = uni_test(1);
-    wprintf(L"%lc", test);
-}
+    char* uni_1 = (char*) _1;
 
-wchar_t uni_test(int n){
-    wchar_t uni;
-    switch (n){
-        case 0 :
-            uni = 0x265F;
-            return uni;
-        case 1 : 
-            uni = 0x265A;
-            return uni;
-        default:
-            uni = 0x2658;
-            return uni;
-    }
+    printf("%s \n", uni_1);
 }

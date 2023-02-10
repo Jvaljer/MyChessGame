@@ -72,46 +72,47 @@ char* Id_to_str(Id id){
     }
 }
 
-wchar_t Id_to_unicode(Id id){
-    wchar_t uni;
+char* Id_to_visual(Id id){
+    
+    char* uni;
     switch (id){
         //black tokens
         case bP :
-            uni = 0x265F;
+            uni = "♙";
             return uni;
         case bR :
-            uni = 0x265C;
+            uni = "♖";
             return uni;
         case bK :
-            uni = 0x265E;
+            uni = "♘";
             return uni;
         case bB :
-            uni = 0x265D;
+            uni = "♗";
             return uni;
         case bQ :
-            uni = 0x265B;
+            uni = "♕";
             return uni;
         case BK :
-            uni = 0x265A;
+            uni = "♔";
             return uni;
         //white tokens
         case wP :
-            uni = 0x2659;
+            uni = "♟";
             return uni;
         case wR :
-            uni = 0x2656;
+            uni = "♜";
             return uni;
         case wK :
-            uni = 0x2658;
+            uni = "♞";
             return uni;
         case wB :
-            uni = 0x2657;
+            uni = "♝";
             return uni;
         case wQ :
-            uni = 0x2655;
+            uni = "♛";
             return uni;
         case WK :
-            uni = 0x2654;
+            uni = "♚";
             return uni;
     }
 }

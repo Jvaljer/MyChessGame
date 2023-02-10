@@ -50,12 +50,12 @@ Id make_Id(Role R, Color C);
 char* Id_to_str(Id id);
 
 /*
- * Id to Unicode (wchar_t)
+ * Id to unicode visual (wchar_t)
  * args : (id:Id)
  * result : returns the unicode character corresponding to the 
  *          given Id.
  */
-wchar_t Id_to_unicode(Id id);
+char* Id_to_visual(Id id);
 
 /*
  * Token Constructor

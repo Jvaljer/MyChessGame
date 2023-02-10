@@ -5,6 +5,8 @@
 #include <locale.h>
 #include "Board.h"
 
+//TRY USING N-CURSES FOR THE TERMINAL PRINTING
+
 Board* new_Board(){
     Board* B = malloc(sizeof(Board));
     Role line[8] = { ROOK, KNIGHT, BISHOP, QUEEN, KING, BISHOP, KNIGHT, ROOK };
@@ -59,22 +61,20 @@ Token* FindToken(Board* B, Slot* S){
 
 void PrintBoard(Board* B){
     printf("\n  a    b    c    d    e    f    g    h\n");
-    printf("-----------------------------------------\n");
+    printf("-------------------------------------------------\n");
     for(int i=0; i<8; i++){
         for(int j=0; j<8; j++){
-            printf("| ");
+            printf("|  ");
             if(B->grid[i][j]->occupied){
                 Token* T_ = FindToken(B,B->grid[i][j]);
-                printf("%s ", Id_to_str(T_->id));
-                /*setlocale(LC_CTYPE, "");
-                wchar_t uni = Id_to_unicode(T_->id);
-                wprintf(L"%lc", uni); */
+                //printf("%s ", Id_to_str(T_->id));
+                printf("%s  ", Id_to_visual(T_->id));
             } else {
                 printf("   ");
             }
         }
         printf("| %d\n", i+1);
-        printf("-----------------------------------------\n");
+        printf("-------------------------------------------------\n");
     }
 }
 
