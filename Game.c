@@ -193,9 +193,7 @@ int BishopMove(Game* G, Token* T, Slot* S){
 }
 
 int QueenMove(Game* G, Token* T, Slot* S){
-    if(RookMove(G, T, S)){
-        return 1;
-    } else if(BishopMove(G, T, S)){
+    if(RookMove(G, T, S) || BishopMove(G, T, S)){
         return 1;
     } else {
         return 0;
