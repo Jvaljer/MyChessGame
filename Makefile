@@ -11,3 +11,8 @@ clean:
 	
 run:
 	./$(TRGT)
+
+execute:
+	make compile
+	make run
+	make clean
