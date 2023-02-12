@@ -36,6 +36,8 @@ Coord* GetCoordFromInput(char input[2]);
  */
 void Turn(Game* G);
 
+int Finished(Game* G);
+
 /*
  * Test function for the Playing stuff (part of game)
  * args: None

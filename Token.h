@@ -79,6 +79,7 @@ int EqToken(Token* T1, Token* T2);
  * result : 1 if T1 & T2 are pointing at the same object
  */
 int EqTokenP(Token* T1, Token* T2);
+
 /*
  * Test Function for Token stuff
  * args : None

@@ -13,6 +13,16 @@ int main(int argc, char* argv){
     //TestBoard(); 
     
     //TestGame();
-    TestTurn();
+    //TestTurn();
+
+    /*
+     * Main Section
+     */
+    Game* game = new_Game();
+    while(Finished(game)==0){
+        PrintBoard(game->board);
+        Turn(game);
+        system("clear");
+    }
     return 0;
 }

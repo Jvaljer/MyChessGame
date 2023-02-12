@@ -97,12 +97,12 @@ void Turn(Game* G){
     char second_input[2];
 
     do {
-        printf("please enter your starting slot's name :\n");
+        printf("starting slot :\n");
         scanf("%s", first_input);
     } while(ValidInput(first_input)==0);
     
     do {
-        printf("now please enter your ending slot's name :\n");
+        printf("ending slot :\n");
         scanf("%s", second_input);
     } while(ValidInput(second_input)==0);
 
@@ -112,15 +112,17 @@ void Turn(Game* G){
     Slot* S1 = G->board->grid[C1->x][C1->y];
     Slot* S2 = G->board->grid[C2->x][C2->y];
 
-    printf("the slot corresponding to first input is : [%d][%d]\n", S1->coord->x, S1->coord->y);
-    printf("the slot corresponding to second input is : [%d][%d]\n", S2->coord->x, S2->coord->y);
-
     if(ValidMove(G,S1,S2)){
         MoveToken(G->board,S1,S2);
     } else {
         printf("this move is not valid, please enter another one\n");
         Turn(G);
     }
+    ChangeTurn(G);
+}
+
+int Finished(Game* G){
+    return 0;
 }
 
 void TestTurn(){
