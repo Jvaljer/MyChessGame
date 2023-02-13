@@ -130,7 +130,9 @@ int CanMove(Game* G, Slot* S1, Slot* S2);
  *      1 if the S1's token isn't pinned on the G game
  *      0 if it is.
  */
-int PinCheck(Game* G, Slot* S);
+int PinCheck(Game* G, Slot* S1, Slot* S2);
+
+int IsStillChecked(Game* G, Slot* S1, Slot* S2);
 
 int IsChecked(Game* G);
 

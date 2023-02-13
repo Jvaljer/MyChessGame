@@ -265,9 +265,13 @@ int CanMove(Game* G, Slot* S1, Slot* S2){
     }
 }
 
-int PinCheck(Game* G, Slot* S){
+int PinCheck(Game* G, Slot* S1, Slot* S2){
     //here we can just test if when the piece moves, the king is checked...
-    return 1;
+    return 0;
+}
+
+int IsStillChecked(Game* G, Slot* S1, Slot* S2){
+    return 0;
 }
 
 int IsChecked(Game* G){
@@ -342,27 +346,61 @@ int IsChecked(Game* G){
     // wanna check up-left (-1,-1)
 
     int cpt = 0;
+    Slot* _S;
     do {
         cpt++;
-        if(){
+        _S = B_->grid[x_pos-cpt][y_pos-cpt];
+        if(_S->occupied){
+            Token* T_ = FindToken(B_,_S);
+            if(T_->role == BISHOP && T_->color != col){
+                return 1;
+            } else if(T_->color == col){
+                break;
+            }
         }
     } while(IsInside(new_Coord(x_pos-cpt,y_pos-cpt)));
 
     //wanna check up-right (1,-1)
     do {
-        
+        cpt++;
+        _S = B_->grid[x_pos+cpt][y_pos-cpt];
+        if(_S->occupied){
+            Token* T_ = FindToken(B_,_S);
+            if(T_->role == BISHOP && T_->color != col){
+                return 1;
+            } else if(T_->color == col){
+                break;
+            }
+        }
     } while(IsInside(new_Coord(x_pos+cpt,y_pos-cpt)));
 
     //wanna check down-left (-1,1)
     do {
-        
+        cpt++;
+        _S = B_->grid[x_pos-cpt][y_pos+cpt];
+        if(_S->occupied){
+            Token* T_ = FindToken(B_,_S);
+            if(T_->role == BISHOP && T_->color != col){
+                return 1;
+            } else if(T_->color == col){
+                break;
+            }
+        }
     } while(IsInside(new_Coord(x_pos-cpt,y_pos+cpt)));
 
     //wanna check down-right (1,1)
     do {
-        
+        cpt++;
+        _S = B_->grid[x_pos+cpt][y_pos+cpt];
+        if(_S->occupied){
+            Token* T_ = FindToken(B_,_S);
+            if(T_->role == BISHOP && T_->color != col){
+                return 1;
+            } else if(T_->color == col){
+                break;
+            }
+        }
     } while(IsInside(new_Coord(x_pos+cpt,y_pos+cpt)));
-
     return 0;
 }
 
@@ -379,11 +417,15 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
         }
     }
 
-    if(PinCheck(G,S1)==0){
+    if(PinCheck(G,S1,S2)==0){
         printf("Cannot do this move, you're pinned\n");
         return 0;
     }
 
+    if(IsStillChecked(G,S1,S2)){
+        printf("Cannot do this move, your king is checked\n");
+        return 0;
+    }
     if(T1->color!=G->turn){
         printf("not your turn ! \n");
         return 0;
