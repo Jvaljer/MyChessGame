@@ -132,6 +132,8 @@ int CanMove(Game* G, Slot* S1, Slot* S2);
  */
 int PinCheck(Game* G, Slot* S);
 
+int IsChecked(Game* G);
+
 /*
  * valid move testing method  
  * args: (G:Game*) (S1:Slot*) (S2:Slot*)

@@ -113,12 +113,15 @@ void Turn(Game* G){
     Slot* S2 = G->board->grid[C2->x][C2->y];
 
     if(ValidMove(G,S1,S2)){
+        if(S2->occupied){
+            TakeToken(G->board,S2);
+        }
         MoveToken(G->board,S1,S2);
+        ChangeTurn(G);
     } else {
         printf("this move is not valid, please enter another one\n");
         Turn(G);
     }
-    ChangeTurn(G);
 }
 
 int Finished(Game* G){

@@ -193,9 +193,11 @@ int BishopMove(Game* G, Token* T, Slot* S){
 }
 
 int QueenMove(Game* G, Token* T, Slot* S){
-    if(RookMove(G, T, S) || BishopMove(G, T, S)){
+    if(RookMove(G, T, S)){
         return 1;
-    } else {
+    } else if(BishopMove(G, T, S)) {
+        return 1;
+    }else {
         return 0;
     }
 }
@@ -264,8 +266,80 @@ int CanMove(Game* G, Slot* S1, Slot* S2){
 }
 
 int PinCheck(Game* G, Slot* S){
-    //must implement
+    //here we can just test if when the piece moves, the king is checked...
     return 1;
+}
+
+int IsChecked(Game* G){
+    Board* B_ = G->board;
+    Color col = G->turn;
+    Token* K_;
+    if(col==WHITE){
+        K_ = B_->hands[0][4];
+    } else if(col==BLACK){
+        K_ = B_->hands[1][4];
+    } else {
+        return 0;
+    }
+
+    //here we wanna check if in any direction, there's well not any enemy token
+      //and if there's one, we check if the direction is matching its movement 
+
+    Slot* S_ = K_->slot;
+    int x_pos = S_->coord->x;
+    int y_pos = S_->coord->y;
+    //first we check in the Horizontal direction
+    for(int i= 0; i<8-x_pos; i++){
+        Slot* _S = B_->grid[x_pos+i][y_pos];
+        if(_S->occupied){
+            Token* T_ = FindToken(B_,_S);
+            if(T_->color != K_->color){
+                if(T_->role==ROOK){
+                    return 1;
+                }
+            }
+        }
+    }
+
+    for(int i= 0; i<=x_pos; i++){
+        Slot* _S = B_->grid[x_pos-i][y_pos];
+        if(_S->occupied){
+            Token* T_ = FindToken(B_,_S);
+            if(T_->color != K_->color){
+                if(T_->role==ROOK){
+                    return 1;
+                }
+            }
+        }
+    }
+
+    //secondly we check on the Vertical direction
+    for(int j=0; j<8-y_pos; j++){
+        Slot* _S = B_->grid[x_pos][y_pos+j];
+        if(_S->occupied){
+            Token* T_ = FindToken(B_,_S);
+            if(T_->color != K_->color){
+                if(T_->role==ROOK){
+                    return 1;
+                }
+            }
+        }
+    }
+
+    for(int j=0; j<=y_pos; j++){
+        Slot* _S = B_->grid[x_pos][y_pos-j];
+        if(_S->occupied){
+            Token* T_ = FindToken(B_,_S);
+            if(T_->color != K_->color){
+                if(T_->role==ROOK){
+                    return 1;
+                }
+            }
+        }
+    }
+
+    //Now we check the Diagonal directions ...
+    return 0;
 }
 
 int ValidMove(Game* G, Slot* S1, Slot* S2){
@@ -286,6 +360,10 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
         return 0;
     }
 
+    if(T1->color!=G->turn){
+        printf("not your turn ! \n");
+        return 0;
+    }
     return 1;
 }
 

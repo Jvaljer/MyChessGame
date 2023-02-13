@@ -60,11 +60,11 @@ Token* FindToken(Board* B, Slot* S){
 }
 
 void PrintBoard(Board* B){
-    printf("\n   a     b     c     d     e     f     g     h\n");
-    printf("-------------------------------------------------\n");
+    printf("\n  a    b    c    d    e    f    g    h\n");
+    printf("-----------------------------------------\n");
     for(int i=0; i<8; i++){
         for(int j=0; j<8; j++){
-            printf("|  ");
+            printf("| ");
             if(B->grid[i][j]->occupied){
                 Token* T_ = FindToken(B,B->grid[i][j]);
                 //printf("%s ", Id_to_str(T_->id));
@@ -74,7 +74,7 @@ void PrintBoard(Board* B){
             }
         }
         printf("| %d\n", i+1);
-        printf("-------------------------------------------------\n");
+        printf("-----------------------------------------\n");
     }
 }
 
