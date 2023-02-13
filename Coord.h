@@ -59,6 +59,8 @@ int IsNeighbour(Coord* C1, Coord* C2);
  */
 int IsDirectDiag(Coord* C1, Coord* C2);
 
+int IsInside(Coord* C);
+
 /*
  * Test Function for Coord stuff
  * args : None

@@ -49,6 +49,14 @@ int IsDirectDiag(Coord* C1, Coord* C2){
     );
 }
 
+int IsInside(Coord* C){
+    if(C->x < 0 || C->x > 7 || C->y < 0 || C->y > 7){
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
 void TestCoord(){
     printf("#- COORD TESTS START\n");
     printf("Testing Constructor :");

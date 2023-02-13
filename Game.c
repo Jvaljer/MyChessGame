@@ -339,6 +339,30 @@ int IsChecked(Game* G){
     }
 
     //Now we check the Diagonal directions ...
+    // wanna check up-left (-1,-1)
+
+    int cpt = 0;
+    do {
+        cpt++;
+        if(){
+        }
+    } while(IsInside(new_Coord(x_pos-cpt,y_pos-cpt)));
+
+    //wanna check up-right (1,-1)
+    do {
+        
+    } while(IsInside(new_Coord(x_pos+cpt,y_pos-cpt)));
+
+    //wanna check down-left (-1,1)
+    do {
+        
+    } while(IsInside(new_Coord(x_pos-cpt,y_pos+cpt)));
+
+    //wanna check down-right (1,1)
+    do {
+        
+    } while(IsInside(new_Coord(x_pos+cpt,y_pos+cpt)));
+
     return 0;
 }
 
