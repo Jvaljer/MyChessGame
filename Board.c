@@ -60,6 +60,7 @@ Token* FindToken(Board* B, Slot* S){
 }
 
 void PrintBoard(Board* B){
+    system("clear");
     printf("\n  a    b    c    d    e    f    g    h\n");
     printf("-----------------------------------------\n");
     for(int i=0; i<8; i++){

@@ -286,19 +286,19 @@ int IsChecked(Game* G){
         return 0;
     }
 
-    //here we wanna check if in any direction, there's well not any enemy token
+    //here we wanna check if from any token there's a check in the current board state
       //and if there's one, we check if the direction is matching its movement 
 
     Slot* S_ = K_->slot;
     int x_pos = S_->coord->x;
     int y_pos = S_->coord->y;
-    //first we check in the Horizontal direction
+    //first we check for check from ROOK or QUEEN
     for(int i= 0; i<8-x_pos; i++){
         Slot* _S = B_->grid[x_pos+i][y_pos];
         if(_S->occupied){
             Token* T_ = FindToken(B_,_S);
             if(T_->color != K_->color){
-                if(T_->role==ROOK){
+                if(T_->role==ROOK || T_->role==QUEEN){
                     return 1;
                 }
             }
@@ -310,20 +310,19 @@ int IsChecked(Game* G){
         if(_S->occupied){
             Token* T_ = FindToken(B_,_S);
             if(T_->color != K_->color){
-                if(T_->role==ROOK){
+                if(T_->role==ROOK || T_->role==QUEEN){
                     return 1;
                 }
             }
         }
     }
 
-    //secondly we check on the Vertical direction
     for(int j=0; j<8-y_pos; j++){
         Slot* _S = B_->grid[x_pos][y_pos+j];
         if(_S->occupied){
             Token* T_ = FindToken(B_,_S);
             if(T_->color != K_->color){
-                if(T_->role==ROOK){
+                if(T_->role==ROOK || T_->role==QUEEN){
                     return 1;
                 }
             }
@@ -335,14 +334,14 @@ int IsChecked(Game* G){
         if(_S->occupied){
             Token* T_ = FindToken(B_,_S);
             if(T_->color != K_->color){
-                if(T_->role==ROOK){
+                if(T_->role==ROOK || T_->role==QUEEN){
                     return 1;
                 }
             }
         }
     }
 
-    //Now we check the Diagonal directions ...
+    //checking check from BISHOP & QUEEN
     // wanna check up-left (-1,-1)
 
     int cpt = 0;
@@ -352,7 +351,7 @@ int IsChecked(Game* G){
         _S = B_->grid[x_pos-cpt][y_pos-cpt];
         if(_S->occupied){
             Token* T_ = FindToken(B_,_S);
-            if(T_->role == BISHOP && T_->color != col){
+            if((T_->role == BISHOP || T_->role==QUEEN) && T_->color != col){
                 return 1;
             } else if(T_->color == col){
                 break;
@@ -366,7 +365,7 @@ int IsChecked(Game* G){
         _S = B_->grid[x_pos+cpt][y_pos-cpt];
         if(_S->occupied){
             Token* T_ = FindToken(B_,_S);
-            if(T_->role == BISHOP && T_->color != col){
+            if((T_->role == BISHOP || T_->role==QUEEN) && T_->color != col){
                 return 1;
             } else if(T_->color == col){
                 break;
@@ -380,7 +379,7 @@ int IsChecked(Game* G){
         _S = B_->grid[x_pos-cpt][y_pos+cpt];
         if(_S->occupied){
             Token* T_ = FindToken(B_,_S);
-            if(T_->role == BISHOP && T_->color != col){
+            if((T_->role == BISHOP || T_->role==QUEEN) && T_->color != col){
                 return 1;
             } else if(T_->color == col){
                 break;
@@ -394,13 +393,52 @@ int IsChecked(Game* G){
         _S = B_->grid[x_pos+cpt][y_pos+cpt];
         if(_S->occupied){
             Token* T_ = FindToken(B_,_S);
-            if(T_->role == BISHOP && T_->color != col){
+            if((T_->role == BISHOP || T_->role==QUEEN) && T_->color != col){
                 return 1;
             } else if(T_->color == col){
                 break;
             }
         }
     } while(IsInside(new_Coord(x_pos+cpt,y_pos+cpt)));
+
+    //checking checks from PAWNS
+    if(K_->color == WHITE){
+        //then we wanna check on both directions (-1,1) (1,1)
+        Slot* S = B_->grid[x_pos - 1][y_pos + 1];
+        if(S->occupied){
+            Token* T = FindToken(B_,S);
+            if(T->color!=col && T->role==PAWN){
+                return 1;
+            }
+        }
+
+        S = B_->grid[x_pos + 1][y_pos + 1];
+        if(S->occupied){
+            Token* T = FindToken(B_,S);
+            if(T->color!=col && T->role==PAWN){
+                return 1;
+            }
+        }
+    } else if(K_->color == BLACK){
+        //then we wanna check on both directions (-1,-1) (1,-1)
+        Slot* S = B_->grid[x_pos - 1][y_pos - 1];
+        if(S->occupied){
+            Token* T = FindToken(B_,S);
+            if(T->color!=col && T->role==PAWN){
+                return 1;
+            }
+        }
+
+        S = B_->grid[x_pos + 1][y_pos - 1];
+        if(S->occupied){
+            Token* T = FindToken(B_,S);
+            if(T->color!=col && T->role==PAWN){
+                return 1;
+            }
+        }
+    }
+
+    //checking checks from KNIGHTS
     return 0;
 }
 
@@ -417,7 +455,7 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
         }
     }
 
-    if(PinCheck(G,S1,S2)==0){
+    if(PinCheck(G,S1,S2)==1){
         printf("Cannot do this move, you're pinned\n");
         return 0;
     }
@@ -430,7 +468,8 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
         printf("not your turn ! \n");
         return 0;
     }
-    return 1;
+
+    return CanMove(G,S1,S2);
 }
 
 void ChangeTurn(Game* G){
