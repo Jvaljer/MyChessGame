@@ -12,17 +12,21 @@ Game* new_Game(){
 }
 
 int PawnMove(Game* G, Token* T, Slot* S){
+    printf("PawnMove -> ");
     if(G->turn != T->color || EqSlotP(T->slot,S) ){
+        printf("1st case -> 0\n");
         return 0;
     } else {
         switch (T->color){
             case WHITE :
+                printf("BLACK -> ");
                 if(T->slot->coord->y != S->coord->y){
                     if(T->slot->coord->x != S->coord->x + 1){
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
                             return 1;
                         }
                     } else {
+                        printf("2nd case -> 0\n");
                         return 0;
                     }
                 } else {
@@ -30,21 +34,25 @@ int PawnMove(Game* G, Token* T, Slot* S){
                     if(T->slot->coord->x < S->coord->x){
                         for(int j=T->slot->coord->x+1; j<=S->coord->x; j++){
                             if(G->board->grid[i][j]->occupied==1){
+                                printf("3rd case -> 0\n");
                                 return 0;
                             }
                         }
                         return 1;
                     } else {
+                        printf("4th case -> 0\n");
                         return 0;
                     }
                 }
             case BLACK :
+                printf("BLACK -> ");
                 if(T->slot->coord->y != S->coord->y){
                     if(T->slot->coord->x != S->coord->x + 1){
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
                             return 1;
                         }
                     } else {
+                        printf("2nd case -> 0\n");
                         return 0;
                     }
                 } else {
@@ -52,11 +60,13 @@ int PawnMove(Game* G, Token* T, Slot* S){
                     if(T->slot->coord->x > S->coord->x){
                         for(int j=S->coord->x; j<T->slot->coord->x; j++){
                             if(G->board->grid[i][j]->occupied==1){
+                                printf("3rd case -> 0\n");
                                 return 0;
                             }
                         }
                         return 1;
                     } else {
+                        printf("4th case -> 0\n");
                         return 0;
                     }
                 }
@@ -446,6 +456,7 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
     //here we just wanna check if S2 isn't occupied by an ally token
     //later on we'll add the 'Pin' checker
     Token* T1 = FindToken(G->board,S1);
+    printf("moving token is : %s\n", Id_to_visual(T1->id));
     Token* T2;
     if(S2->occupied){
         T2 = FindToken(G->board,S2);

@@ -112,6 +112,7 @@ void Turn(Game* G){
     Slot* S1 = G->board->grid[C1->x][C1->y];
     Slot* S2 = G->board->grid[C2->x][C2->y];
 
+    printf("slots are : [%d][%d] -> [%d][%d]\n", C1->x,C1->y,C2->x,C2->y);
     if(ValidMove(G,S1,S2)){
         if(S2->occupied){
             TakeToken(G->board,S2);

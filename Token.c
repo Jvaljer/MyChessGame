@@ -76,6 +76,9 @@ char* Id_to_visual(Id id){
     
     char* uni;
     switch (id){
+        //error token
+        case ER :
+            uni = "-";
         //black tokens
         case bP :
             uni = "♙";
