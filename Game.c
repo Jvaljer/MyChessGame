@@ -13,16 +13,30 @@ Game* new_Game(){
 
 int PawnMove(Game* G, Token* T, Slot* S){
     printf("PawnMove -> ");
+    if(G->turn == BLACK){
+        printf("shall be black's turn\n");
+    } else if(G->turn == WHITE){
+        printf("shall be white's turn\n");
+    }
+
+    if(T->color == BLACK){
+        printf("token is black\n");
+    } else if(T->color == WHITE){
+        printf("token is white\n");
+    }
     if(G->turn != T->color || EqSlotP(T->slot,S) ){
         printf("1st case -> 0\n");
         return 0;
     } else {
         switch (T->color){
             case WHITE :
-                printf("BLACK -> ");
+                printf("WHITE -> ");
                 if(T->slot->coord->y != S->coord->y){
+                    printf("y are : %d | %d \n",T->slot->coord->y, S->coord->y);
+                    printf("x are : %d | %d \n", T->slot->coord->x, S->coord->x);
                     if(T->slot->coord->x != S->coord->x + 1){
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
+                            printf("1st case -> 1\n");
                             return 1;
                         }
                     } else {
@@ -33,11 +47,12 @@ int PawnMove(Game* G, Token* T, Slot* S){
                     int i = T->slot->coord->y;
                     if(T->slot->coord->x < S->coord->x){
                         for(int j=T->slot->coord->x+1; j<=S->coord->x; j++){
-                            if(G->board->grid[i][j]->occupied==1){
+                            if(G->board->grid[j][i]->occupied==1){
                                 printf("3rd case -> 0\n");
                                 return 0;
                             }
                         }
+                        printf("2nd case -> 1\n");
                         return 1;
                     } else {
                         printf("4th case -> 0\n");
@@ -47,8 +62,12 @@ int PawnMove(Game* G, Token* T, Slot* S){
             case BLACK :
                 printf("BLACK -> ");
                 if(T->slot->coord->y != S->coord->y){
-                    if(T->slot->coord->x != S->coord->x + 1){
+                    printf("y are : %d | %d \n",T->slot->coord->y, S->coord->y);
+                    printf("x are : %d | %d \n", T->slot->coord->x, S->coord->x);
+                    if(T->slot->coord->x == S->coord->x + 1){
+                        printf("checking diag\n");
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
+                            printf("1st case -> 1\n");
                             return 1;
                         }
                     } else {
@@ -59,17 +78,22 @@ int PawnMove(Game* G, Token* T, Slot* S){
                     int i = T->slot->coord->y;
                     if(T->slot->coord->x > S->coord->x){
                         for(int j=S->coord->x; j<T->slot->coord->x; j++){
-                            if(G->board->grid[i][j]->occupied==1){
+                            printf("checking slot [%d][%d]\n", i, j);
+                            if(G->board->grid[j][i]->occupied==1){
                                 printf("3rd case -> 0\n");
                                 return 0;
                             }
                         }
+                        printf("2nd case -> 1\n");
                         return 1;
                     } else {
                         printf("4th case -> 0\n");
                         return 0;
                     }
                 }
+            default:
+                printf("null\n");
+                return 0;
         }
     }
 }
@@ -460,6 +484,7 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
     Token* T2;
     if(S2->occupied){
         T2 = FindToken(G->board,S2);
+        printf("on slot's token : %s\n", Id_to_visual(T2->id));
         if(T1->color == T2->color){
             printf("Cannot do this move, slot occupied by one token of yours\n");
             return 0;
@@ -480,6 +505,7 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
         return 0;
     }
 
+    printf("checking on can move...\n");
     return CanMove(G,S1,S2);
 }
 
