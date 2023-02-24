@@ -80,12 +80,4 @@ int EqToken(Token* T1, Token* T2);
  */
 int EqTokenP(Token* T1, Token* T2);
 
-/*
- * Test Function for Token stuff
- * args : None
- * result : nothing if all assertion true
- *          error if an assertion false
- */
-void TestToken();
-
 #endif

@@ -46,12 +46,4 @@ void Turn(Game* G);
  */
 int Finished(Game* G);
 
-/*
- * Test function for the Playing stuff (part of game)
- * args: None
- * result: nothing if all assertion true
- *         error if one or more assertion false
- */
-void TestTurn();
-
 #endif

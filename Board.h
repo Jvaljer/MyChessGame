@@ -77,12 +77,4 @@ void TakeToken(Board* B, Slot* S);
  */
 void Reinitialize(Board* B);
 
-/*
- * Test Function for Board stuff
- * args : None
- * result : nothing if all assertion true
- *          error if an assertion false
- */
-void TestBoard();
-
 #endif

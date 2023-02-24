@@ -128,10 +128,3 @@ void Turn(Game* G){
 int Finished(Game* G){
     return 0;
 }
-
-void TestTurn(){
-    Game* G = new_Game();
-    PrintBoard(G->board);
-    Turn(G);
-    PrintBoard(G->board);
-}

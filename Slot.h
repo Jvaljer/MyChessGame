@@ -56,12 +56,4 @@ Slot* new_Slot(Coord* C);
  */
 void PrintSlot(Slot* S);
 
-/*
- * Test Function for Slot stuff
- * args : None
- * result : nothing if all assertion true
- *          error if an assertion false
- */
-void TestSlot();
-
 #endif

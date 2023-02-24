@@ -137,19 +137,3 @@ int EqToken(Token* T1, Token* T2){
 int EqTokenP(Token* T1, Token* T2){
     return (T1==T2);
 }
-
-void TestToken(){
-    printf("#- TOKEN TEST START\n");
-    printf("Testing Constructor :");
-    Coord* C0 = new_Coord(1,1);
-    Slot* S0 = new_Slot(C0);
-    Token* T0 = new_Token(S0,KING,WHITE);
-    assert( EqSlot(T0->slot,S0) );
-    assert( EqSlotP(T0->slot,S0) );
-    assert( T0->role == KING );
-    assert( T0->color == WHITE);
-    assert( T0->id == WK );
-    printf(" check\n");
-
-    printf(" -> TOKEN TEST END -# \n\n");
-}

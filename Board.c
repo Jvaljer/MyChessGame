@@ -99,36 +99,3 @@ void TakeToken(Board* B, Slot* S){
     T_->slot = new_Slot(new_Coord(-1,-1));
     T_->onBoard = 0;
 }
-
-void TestBoard(){
-    printf("#- BOARD TEST START\n");
-    printf("Testing Constructor : ");
-    Board* B = new_Board();
-    for(int i=0; i<8; i++){
-        for(int j=0; j<8; j++){
-            assert( B->grid[i][j]->coord->x==i && B->grid[i][j]->coord->y==j);
-        }
-    }
-    printf(" check\n");
-
-    printf("Testing Printing #1 : ");
-    PrintBoard(B);
-    printf(" check\n");
-
-    printf("Testing Token moving/Removing : ");
-    MoveToken(B,B->grid[1][4],B->grid[3][4]);
-    TakeToken(B,B->grid[1][0]);
-    assert(B->grid[1][0]->occupied==0);
-    assert( FindToken(B,B->grid[1][0])==NULL );
-    assert( FindToken(B,B->grid[1][4])==NULL);
-    assert( FindToken(B,B->grid[3][4])!=NULL);
-    Token* T_ = FindToken(B,B->grid[3][4]);
-    assert( EqSlotP(B->grid[3][4],T_->slot)==1 );
-    printf(" check\n");
-
-    printf("Testing Printing #2 : ");
-    PrintBoard(B);
-    printf(" check\n");
-
-    printf(" -> BOARD TEST END -# \n\n");
-}

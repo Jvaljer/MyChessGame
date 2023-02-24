@@ -167,12 +167,4 @@ int ValidMove(Game* G, Slot* S1, Slot* S2);
  */
 void ChangeTurn(Game* G);
 
-/*
- * Test Function for Game stuff
- * args : None
- * result : nothing if all assertion true
- *          error if an assertion false
- */
-void TestGame();
-
 #endif
