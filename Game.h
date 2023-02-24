@@ -132,8 +132,22 @@ int CanMove(Game* G, Slot* S1, Slot* S2);
  */
 int PinCheck(Game* G, Slot* S1, Slot* S2);
 
-int IsStillChecked(Game* G, Slot* S1, Slot* S2);
+/*
+ * UnCheck test method
+ * args: (G:Game*) (S1:Slot*) (S2:Slot*)
+ * result:
+ *      returns 1 if the move S1->S2 is unchecking the player's king. 
+ *      returns 0 if not.
+ */
+int Unchecked(Game* G, Slot* S1, Slot* S2);
 
+/*
+ * Check test method
+ * args: (G:Game*)
+ * result:
+ *      returns 1 if the actual player's king is checked by anyway on 
+ *      the board. And 0 if not.
+ */
 int IsChecked(Game* G);
 
 /*
