@@ -496,7 +496,7 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
         return 0;
     }
 
-    if(IsStillChecked(G,S1,S2)){
+    if(Unchecked(G,S1,S2)){
         printf("Cannot do this move, your king is checked\n");
         return 0;
     }
