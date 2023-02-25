@@ -96,18 +96,24 @@ void Turn(Game* G){
     char first_input[2];
     char second_input[2];
 
-    do {
-        printf("starting slot :\n");
-        scanf("%s", first_input);
-    } while(ValidInput(first_input)==0);
-    
-    do {
-        printf("ending slot :\n");
-        scanf("%s", second_input);
-    } while(ValidInput(second_input)==0);
+    Coord* C1;
+    Coord* C2;
 
-    Coord* C1 = GetCoordFromInput(first_input);
-    Coord* C2 = GetCoordFromInput(second_input);
+    do {
+        do {
+            printf("starting slot :\n");
+            scanf("%s", first_input);
+        } while(ValidInput(first_input)==0);
+    
+        do {
+            printf("ending slot :\n");
+            scanf("%s", second_input);
+        } while(ValidInput(second_input)==0);
+
+        C1 = GetCoordFromInput(first_input);
+        C2 = GetCoordFromInput(second_input);
+
+    } while(!(G->board->grid[C1->x][C1->y]->occupied));
 
     Slot* S1 = G->board->grid[C1->x][C1->y];
     Slot* S2 = G->board->grid[C2->x][C2->y];

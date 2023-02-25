@@ -15,7 +15,7 @@ run:
 	./$(TRGT)
 
 test:
-	$(CC) -o $(TST) tests.c Coord.c Slot.c Token.c Board.c Game.c Turn.c Coord.h Slot.h Token.h Board.h Game.h Turn.h
+	$(CC) -o $(TST) tests.c Test.c Coord.c Slot.c Token.c Board.c Game.c Turn.c Test.h Coord.h Slot.h Token.h Board.h Game.h Turn.h
 	./$(TST)
 	rm $(TST)
 

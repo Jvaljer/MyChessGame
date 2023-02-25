@@ -114,7 +114,12 @@ int RookMove(Game* G, Token* T, Slot* S){
             } else {
                 for(int j=S->coord->y; j<T->slot->coord->y; j++){
                     if(G->board->grid[i][j]->occupied==1){
-                        return 0;
+                        Token* T_ = FindToken(G->board,G->board->grid[i][j]);
+                        if(EqSlotP(G->board->grid[i][j],S) && T_->color!=G->turn){
+                            return 1;
+                        } else {
+                            return 0;
+                        }
                     }
                 }
                 return 1;
@@ -124,17 +129,25 @@ int RookMove(Game* G, Token* T, Slot* S){
             if(S->coord->x > T->slot->coord->x){
                 for(int i=T->slot->coord->x+1; i<=S->coord->x; i++){
                     if(G->board->grid[i][j]->occupied==1){
-                        return 0;
+                        Token* T_ = FindToken(G->board,G->board->grid[i][j]);
+                        if(EqSlotP(G->board->grid[i][j],S) && T_->color!=G->turn){
+                            return 1;
+                        } else {
+                            return 0;
+                        }
                     }
                 }
-                return 1;
             } else {
                 for(int i=S->coord->x; i<T->slot->coord->x; i++){
                     if(G->board->grid[i][j]->occupied==1){
-                        return 0;
+                        Token* T_ = FindToken(G->board,G->board->grid[i][j]);
+                        if(EqSlotP(G->board->grid[i][j],S) && T_->color!=G->turn){
+                            return 1;
+                    } else {
+                            return 0;
+                        }
                     }
                 }
-                return 1;
             }
         } else {
             return 0;
@@ -304,7 +317,7 @@ int PinCheck(Game* G, Slot* S1, Slot* S2){
     return 0;
 }
 
-int IsStillChecked(Game* G, Slot* S1, Slot* S2){
+int Unchecked(Game* G, Slot* S1, Slot* S2){
     return 0;
 }
 
