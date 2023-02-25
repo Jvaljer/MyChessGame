@@ -322,23 +322,34 @@ int Unchecked(Game* G, Slot* S1, Slot* S2){
 }
 
 int IsChecked(Game* G){
+    printf("entering IsChecked\n");
     Board* B_ = G->board;
     Color col = G->turn;
     Token* K_;
+    printf("checking current color\n");
     if(col==WHITE){
+        printf("WHITE\n");
         K_ = B_->hands[0][4];
+        printf("got the %s token\n", Id_to_visual(K_->id));
     } else if(col==BLACK){
+        printf("BLACK\n");
         K_ = B_->hands[1][4];
+        printf("got the %s token\n", Id_to_visual(K_->id));
     } else {
+        printf("None\n");
         return 0;
     }
 
     //here we wanna check if from any token there's a check in the current board state
       //and if there's one, we check if the direction is matching its movement 
 
+    printf("getting King's Slot\n");
     Slot* S_ = K_->slot;
+    printf("getting corresponding position\n");
     int x_pos = S_->coord->x;
     int y_pos = S_->coord->y;
+
+    printf("checking first check case\n");
     //first we check for check from ROOK or QUEEN
     for(int i= 0; i<8-x_pos; i++){
         Slot* _S = B_->grid[x_pos+i][y_pos];
@@ -352,6 +363,7 @@ int IsChecked(Game* G){
         }
     }
 
+    printf("checking second check case\n");
     for(int i= 0; i<=x_pos; i++){
         Slot* _S = B_->grid[x_pos-i][y_pos];
         if(_S->occupied){
@@ -364,6 +376,7 @@ int IsChecked(Game* G){
         }
     }
 
+    printf("checking third check case\n");
     for(int j=0; j<8-y_pos; j++){
         Slot* _S = B_->grid[x_pos][y_pos+j];
         if(_S->occupied){
@@ -376,6 +389,7 @@ int IsChecked(Game* G){
         }
     }
 
+    printf("checking fourth check case\n");
     for(int j=0; j<=y_pos; j++){
         Slot* _S = B_->grid[x_pos][y_pos-j];
         if(_S->occupied){
@@ -393,6 +407,8 @@ int IsChecked(Game* G){
 
     int cpt = 0;
     Slot* _S;
+
+    printf("checking fifth check case\n");
     do {
         cpt++;
         _S = B_->grid[x_pos-cpt][y_pos-cpt];
@@ -406,7 +422,9 @@ int IsChecked(Game* G){
         }
     } while(IsInside(new_Coord(x_pos-cpt,y_pos-cpt)));
 
+    printf("checking sixth check case\n");
     //wanna check up-right (1,-1)
+    cpt = 0;
     do {
         cpt++;
         _S = B_->grid[x_pos+cpt][y_pos-cpt];
@@ -420,34 +438,49 @@ int IsChecked(Game* G){
         }
     } while(IsInside(new_Coord(x_pos+cpt,y_pos-cpt)));
 
+    printf("checking seventh check case\n");
     //wanna check down-left (-1,1)
+    cpt = 0;
     do {
         cpt++;
+        printf("getting the slot [%d][%d]\n", x_pos-cpt, y_pos+cpt);
         _S = B_->grid[x_pos-cpt][y_pos+cpt];
         if(_S->occupied){
+            printf("it is occupied\n");
             Token* T_ = FindToken(B_,_S);
+            printf("getting its token's role\n");
             if((T_->role == BISHOP || T_->role==QUEEN) && T_->color != col){
+                printf("goddamn\n");
                 return 1;
             } else if(T_->color == col){
+                printf("break\n");
                 break;
             }
         }
     } while(IsInside(new_Coord(x_pos-cpt,y_pos+cpt)));
 
+    printf("checking eigth check case\n");
     //wanna check down-right (1,1)
+    cpt = 0;
     do {
         cpt++;
+        printf("getting the slot [%d][%d]\n", x_pos+cpt, y_pos+cpt);
         _S = B_->grid[x_pos+cpt][y_pos+cpt];
         if(_S->occupied){
+            printf("it's occupied goddamn\n");
             Token* T_ = FindToken(B_,_S);
+            printf("getting the role/color\n");
             if((T_->role == BISHOP || T_->role==QUEEN) && T_->color != col){
+                printf("oh shit\n");
                 return 1;
             } else if(T_->color == col){
+                printf("break\n");
                 break;
             }
         }
     } while(IsInside(new_Coord(x_pos+cpt,y_pos+cpt)));
 
+    printf("checking nineth check case\n");
     //checking checks from PAWNS
     if(K_->color == WHITE){
         //then we wanna check on both directions (-1,1) (1,1)
@@ -495,7 +528,10 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
     Token* T1 = FindToken(G->board,S1);
     printf("moving token is : %s\n", Id_to_visual(T1->id));
     Token* T2;
+
+    printf("S2.occupied ? ->");
     if(S2->occupied){
+        printf(" yes\n");
         T2 = FindToken(G->board,S2);
         printf("on slot's token : %s\n", Id_to_visual(T2->id));
         if(T1->color == T2->color){
@@ -503,16 +539,24 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
             return 0;
         }
     }
+    printf(" no\n");
 
+    printf("Token is pinned ? -> ");
     if(PinCheck(G,S1,S2)==1){
+        printf("yes\n");
         printf("Cannot do this move, you're pinned\n");
         return 0;
     }
+    printf("no\n");
 
-    if(Unchecked(G,S1,S2)){
-        printf("Cannot do this move, your king is checked\n");
-        return 0;
+    printf("King is checked ? -> ");
+    if(IsChecked(G)){
+        printf("yes\n");
+        printf("You must protect your King !\n");
+        return Unchecked(G,S1,S2);
     }
+    printf("no\n");
+
     if(T1->color!=G->turn){
         printf("not your turn ! \n");
         return 0;
