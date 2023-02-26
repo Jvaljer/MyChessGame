@@ -290,7 +290,6 @@ int Unchecked(Game* G, Slot* S1, Slot* S2){
 }
 
 int IsChecked(Game* G){
-    printf("entering IsChecked\n");
     //first we get the playing king 
     Color turn = G->turn;
     Token* King;
@@ -327,10 +326,10 @@ int IsChecked(Game* G){
         CT2 = new_Coord(CK->x-diag_cpt,CK->y+diag_cpt);
         CT3 = new_Coord(CK->x+diag_cpt,CK->y-diag_cpt);
         CT4 = new_Coord(CK->x-diag_cpt,CK->y-diag_cpt);
-
-        if(!fst_out){
+        
+        if(fst_out!=1){
             //+1 +1 -> down right
-            if(IsInside(CT1)){
+            if(IsInside(CT1)==1){
                 //still inside -> must test direction
                 Slot* ST1 = G->board->grid[CT1->x][CT1->y];
                 if(ST1->occupied){
@@ -428,8 +427,12 @@ int IsChecked(Game* G){
             }
         }
 
+        if(fst_out==1 && snd_out==1 && thrd_out==1 && frth_out==1){
+            stop = 1;
+        }
+
         diag_cpt++;
-    } while((fst_out!=1 && snd_out!=1 && thrd_out!=1 && frth_out!=1) || stop!=1);
+    } while(stop==0);
         //from lines/columns -> Rook || Queen
         //from L -> Knights
     return 0;
