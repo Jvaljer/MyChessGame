@@ -12,35 +12,17 @@ Game* new_Game(){
 }
 
 int PawnMove(Game* G, Token* T, Slot* S){
-    printf("PawnMove -> ");
-    if(G->turn == BLACK){
-        printf("shall be black's turn\n");
-    } else if(G->turn == WHITE){
-        printf("shall be white's turn\n");
-    }
-
-    if(T->color == BLACK){
-        printf("token is black\n");
-    } else if(T->color == WHITE){
-        printf("token is white\n");
-    }
     if(G->turn != T->color || EqSlotP(T->slot,S) ){
-        printf("1st case -> 0\n");
         return 0;
     } else {
         switch (T->color){
             case WHITE :
-                printf("WHITE -> ");
                 if(T->slot->coord->y != S->coord->y){
-                    printf("y are : %d | %d \n",T->slot->coord->y, S->coord->y);
-                    printf("x are : %d | %d \n", T->slot->coord->x, S->coord->x);
                     if(T->slot->coord->x != S->coord->x + 1){
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
-                            printf("1st case -> 1\n");
                             return 1;
                         }
                     } else {
-                        printf("2nd case -> 0\n");
                         return 0;
                     }
                 } else {
@@ -48,51 +30,37 @@ int PawnMove(Game* G, Token* T, Slot* S){
                     if(T->slot->coord->x < S->coord->x){
                         for(int j=T->slot->coord->x+1; j<=S->coord->x; j++){
                             if(G->board->grid[j][i]->occupied==1){
-                                printf("3rd case -> 0\n");
                                 return 0;
                             }
                         }
-                        printf("2nd case -> 1\n");
                         return 1;
                     } else {
-                        printf("4th case -> 0\n");
                         return 0;
                     }
                 }
             case BLACK :
-                printf("BLACK -> ");
                 if(T->slot->coord->y != S->coord->y){
-                    printf("y are : %d | %d \n",T->slot->coord->y, S->coord->y);
-                    printf("x are : %d | %d \n", T->slot->coord->x, S->coord->x);
                     if(T->slot->coord->x == S->coord->x + 1){
-                        printf("checking diag\n");
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
-                            printf("1st case -> 1\n");
                             return 1;
                         }
                     } else {
-                        printf("2nd case -> 0\n");
                         return 0;
                     }
                 } else {
                     int i = T->slot->coord->y;
                     if(T->slot->coord->x > S->coord->x){
                         for(int j=S->coord->x; j<T->slot->coord->x; j++){
-                            printf("checking slot [%d][%d]\n", i, j);
                             if(G->board->grid[j][i]->occupied==1){
-                                printf("3rd case -> 0\n");
                                 return 0;
                             }
                         }
-                        printf("2nd case -> 1\n");
                         return 1;
                     } else {
-                        printf("4th case -> 0\n");
                         return 0;
                     }
                 }
             default:
-                printf("null\n");
                 return 0;
         }
     }
@@ -323,6 +291,147 @@ int Unchecked(Game* G, Slot* S1, Slot* S2){
 
 int IsChecked(Game* G){
     printf("entering IsChecked\n");
+    //first we get the playing king 
+    Color turn = G->turn;
+    Token* King;
+    if(turn==WHITE){
+        King = G->board->hands[0][12];
+    } else if(turn==BLACK){
+        King = G->board->hands[1][12];
+    } else {
+        printf("turn problem...\n");
+        return 0;
+    }
+    Slot* SK = King->slot;
+    Coord* CK = SK->coord;
+    int stop = 0;
+    //the King is check whenever he is in sight of an enemy piece 
+    //3 possible ways :
+        //from Diag -> Bishop || Queen || Pawn (only if direct diag)
+        //the 4 directions are : 
+        // (+1,+1), (-1,-1) (-1,+1) (+1,-1) 
+    int diag_cpt = 1;
+
+    int fst_out = 0;
+    int snd_out = 0;
+    int thrd_out = 0;
+    int frth_out = 0;
+
+    Coord* CT1;
+    Coord* CT2;
+    Coord* CT3;
+    Coord* CT4;
+
+    do {
+        CT1 = new_Coord(CK->x+diag_cpt,CK->y+diag_cpt);
+        CT2 = new_Coord(CK->x-diag_cpt,CK->y+diag_cpt);
+        CT3 = new_Coord(CK->x+diag_cpt,CK->y-diag_cpt);
+        CT4 = new_Coord(CK->x-diag_cpt,CK->y-diag_cpt);
+
+        if(!fst_out){
+            //+1 +1 -> down right
+            if(IsInside(CT1)){
+                //still inside -> must test direction
+                Slot* ST1 = G->board->grid[CT1->x][CT1->y];
+                if(ST1->occupied){
+                    Token* T1 = FindToken(G->board,ST1);
+                    Color col = T1->color;
+                    if(col != turn){
+                        Role RT1 = T1->role;
+                        if(RT1==BISHOP || RT1==QUEEN){
+                            return 1;
+                        }
+                        if(col == WHITE){
+                            if(diag_cpt==1 && RT1==PAWN){
+                                return 1;
+                            }
+                        }
+                    }
+                }
+            } else {
+                fst_out = 1;
+            }
+        }
+
+        if(!snd_out){
+            //-1 +1 -> down left
+            if(IsInside(CT2)){
+                //still inside -> must test direction
+                Slot* ST2 = G->board->grid[CT2->x][CT2->y];
+                if(ST2->occupied){
+                    Token* T2 = FindToken(G->board,ST2);
+                    Color col = T2->color;
+                    if(col != turn){
+                        Role RT2 = T2->role;
+                        if(RT2==BISHOP || RT2==QUEEN){
+                            return 1;
+                        }
+                        if(col == WHITE){
+                            if(diag_cpt==1 && RT2==PAWN){
+                                return 1;
+                            }
+                        }
+                    }
+                }
+            } else {
+                snd_out = 1;
+            }
+        }
+
+        if(!thrd_out){
+            //+1 -1 -> up right
+            if(IsInside(CT3)){
+                //still inside -> must test direction
+                Slot* ST3 = G->board->grid[CT3->x][CT3->y];
+                if(ST3->occupied){
+                    Token* T3 = FindToken(G->board,ST3);
+                    Color col = T3->color;
+                    if(col != turn){
+                        Role RT3 = T3->role;
+                        if(RT3==BISHOP || RT3==QUEEN){
+                            return 3;
+                        }
+                        if(col == BLACK){
+                            if(diag_cpt==1 && RT3==PAWN){
+                                return 1;
+                            }
+                        }
+                    }
+                }
+            } else {
+                thrd_out = 1;
+            }
+        }
+
+        if(!frth_out){
+            //-1 +1 -> up left
+            if(IsInside(CT4)){
+                //still inside -> must test direction
+                Slot* ST4 = G->board->grid[CT4->x][CT4->y];
+                if(ST4->occupied){
+                    Token* T4 = FindToken(G->board,ST4);
+                    Color col = T4->color;
+                    if(col != turn){
+                        Role RT4 = T4->role;
+                        if(RT4==BISHOP || RT4==QUEEN){
+                            return 1;
+                        }
+                        if(col == WHITE){
+                            if(diag_cpt==1 && RT4==PAWN){
+                                return 1;
+                            }
+                        }
+                    }
+                }
+            } else {
+                frth_out = 1;
+            }
+        }
+
+        diag_cpt++;
+    } while((fst_out!=1 && snd_out!=1 && thrd_out!=1 && frth_out!=1) || stop!=1);
+        //from lines/columns -> Rook || Queen
+        //from L -> Knights
     return 0;
 }
 
@@ -335,4 +444,48 @@ void ChangeTurn(Game* G){
             G->turn = BLACK;
             return;
     }
+}
+
+int ValidMove(Game* G, Slot* S1, Slot* S2){
+    //here we just wanna check if S2 isn't occupied by an ally token
+    //later on we'll add the 'Pin' checker
+    Token* T1 = FindToken(G->board,S1);
+    printf("moving token is : %s\n", Id_to_visual(T1->id));
+    Token* T2;
+
+    printf("S2.occupied ? ->");
+    if(S2->occupied){
+        printf(" yes\n");
+        T2 = FindToken(G->board,S2);
+        printf("on slot's token : %s\n", Id_to_visual(T2->id));
+        if(T1->color == T2->color){
+            printf("Cannot do this move, slot occupied by one token of yours\n");
+            return 0;
+        }
+    }
+    printf(" no\n");
+
+    printf("Token is pinned ? -> ");
+    if(PinCheck(G,S1,S2)==1){
+        printf("yes\n");
+        printf("Cannot do this move, you're pinned\n");
+        return 0;
+    }
+    printf("no\n");
+
+    printf("King is checked ? -> ");
+    if(IsChecked(G)){
+        printf("yes\n");
+        printf("You must protect your King !\n");
+        return Unchecked(G,S1,S2);
+    }
+    printf("no\n");
+
+    if(T1->color!=G->turn){
+        printf("not your turn ! \n");
+        return 0;
+    }
+
+    printf("checking on can move...\n");
+    return CanMove(G,S1,S2);
 }
