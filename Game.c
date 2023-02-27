@@ -304,7 +304,8 @@ int IsChecked(Game* G){
     }
     Slot* SK = King->slot;
     Coord* CK = SK->coord;
-    int stop = 0;
+    int all_out = 0;
+    int all_block = 0;
     //the King is check whenever he is in sight of an enemy piece 
     //3 possible ways :
         //from Diag -> Bishop || Queen || Pawn (only if direct diag)
@@ -315,19 +316,25 @@ int IsChecked(Game* G){
     int thrd_out = 0;
     int frth_out = 0;
 
+    int fst_block = 0;
+    int snd_block = 0;
+    int thrd_block = 0;
+    int frth_block = 0;
+
     Coord* CT1;
     Coord* CT2;
     Coord* CT3;
     Coord* CT4;
+
+    
     printf("starting to check from diags\n");
     do {
-        printf("entering do while loop\n");
         CT1 = new_Coord(CK->x+diag_cpt,CK->y+diag_cpt);
         CT2 = new_Coord(CK->x-diag_cpt,CK->y+diag_cpt);
         CT3 = new_Coord(CK->x+diag_cpt,CK->y-diag_cpt);
         CT4 = new_Coord(CK->x-diag_cpt,CK->y-diag_cpt);
         
-        if(fst_out!=1){
+        if(fst_out!=1 && fst_block!=1){
             //+1 +1 -> down right
             if(IsInside(CT1)==1){
                 //still inside -> must test direction
@@ -346,7 +353,7 @@ int IsChecked(Game* G){
                             }
                         }
                     } else {
-                        stop = 1;
+                        fst_block = 1;
                     }
                 }
             } else {
@@ -354,7 +361,7 @@ int IsChecked(Game* G){
             }
         }
 
-        if(!snd_out){
+        if(snd_out!=1 && snd_block!=1){
             //-1 +1 -> down left
             if(IsInside(CT2)){
                 //still inside -> must test direction
@@ -373,7 +380,7 @@ int IsChecked(Game* G){
                             }
                         }
                     } else {
-                        stop = 1;
+                        snd_block = 1;
                     }
                 }
             } else {
@@ -381,7 +388,7 @@ int IsChecked(Game* G){
             }
         }
 
-        if(!thrd_out){
+        if(thrd_out!=1 && thrd_block!=1){
             //+1 -1 -> up right
             if(IsInside(CT3)){
                 //still inside -> must test direction
@@ -400,7 +407,7 @@ int IsChecked(Game* G){
                             }
                         }
                     } else {
-                        stop = 1;
+                        thrd_block = 1;
                     }
                 }
             } else {
@@ -408,7 +415,7 @@ int IsChecked(Game* G){
             }
         }
 
-        if(!frth_out){
+        if(frth_out!=1 && frth_block!=1){
             //-1 +1 -> up left
             if(IsInside(CT4)){
                 //still inside -> must test direction
@@ -427,7 +434,7 @@ int IsChecked(Game* G){
                             }
                         }
                     } else {
-                        stop = 1;
+                        frth_block = 1;
                     }
                 }
             } else {
@@ -436,11 +443,15 @@ int IsChecked(Game* G){
         }
 
         if(fst_out==1 && snd_out==1 && thrd_out==1 && frth_out==1){
-            stop = 1;
+            all_out = 1;
+        }
+
+        if(fst_block==1 && snd_block==1 && thrd_block==1 && frth_block==1){
+            all_block = 1;
         }
 
         diag_cpt++;
-    } while(stop==0);
+    } while(all_out==0 && all_block==0);
     printf("all good for diags !!!\n");
 
         //from lines/columns -> Rook || Queen
@@ -451,101 +462,126 @@ int IsChecked(Game* G){
     snd_out = 0;
     thrd_out = 0;
     frth_out = 0;
-    stop = 0;
+    int stop = 0;
 
     printf("starting to check for linears\n");
     do {
-        printf("entered do while loop\n");
+        printf("entered do while loop for the %dth time\n",line_cpt);
         CT1 = new_Coord(CK->x+line_cpt,CK->y);
         CT2 = new_Coord(CK->x-line_cpt,CK->y);
         CT3 = new_Coord(CK->x,CK->y+line_cpt);
         CT4 = new_Coord(CK->x,CK->y-line_cpt);
 
-        if(!fst_out){
+        if(fst_out!=1){
             if(IsInside(CT1)){
+                printf("first is in\n");
                 //still inside -> must test direction
                 Slot* ST1 = G->board->grid[CT1->x][CT1->y];
+                printf("getting the slot [%d][%d]\n", ST1->coord->x,ST1->coord->y);
                 if(ST1->occupied){
+                    printf("this slot is occupied\n");
                     Token* T1 = FindToken(G->board,ST1);
                     Color col = T1->color;
+                    printf("so we got the token -> %s\n",Id_to_visual(T1->id));
                     if(col != turn){
                         Role RT1 = T1->role;
                         if(RT1==ROOK || RT1==QUEEN){
                             return 1;
                         }
                     } else {
+                        printf("and so turning stop to 1\n");
                         stop = 1;
                     }
                 }
             } else {
+                printf("first is out !\n");
                 fst_out = 1;
             }
         }
 
-        if(!fst_out){
+        if(snd_out!=1){
             if(IsInside(CT2)){
+                printf("second is in\n");
                 //still inside -> must test direction
                 Slot* ST2 = G->board->grid[CT2->x][CT2->y];
+                printf("getting the slot [%d][%d]\n", ST2->coord->x,ST2->coord->y);
                 if(ST2->occupied){
+                    printf("this slot is occupied\n");
                     Token* T2 = FindToken(G->board,ST2);
                     Color col = T2->color;
+                    printf("so we got the token -> %s\n",Id_to_visual(T2->id));
                     if(col != turn){
                         Role RT2 = T2->role;
                         if(RT2==ROOK || RT2==QUEEN){
                             return 1;
                         }
                     } else {
+                        printf("and so turning stop to 1\n");
                         stop = 1;
                     }
                 }
             } else {
+                printf("second is out !\n");
                 snd_out = 1;
             }
         }
 
-        if(!fst_out){
+        if(thrd_out!=1){
             if(IsInside(CT3)){
+                printf("third is in\n");
                 //still inside -> must test direction
                 Slot* ST3 = G->board->grid[CT3->x][CT3->y];
+                printf("getting the slot [%d][%d]\n", ST3->coord->x,ST3->coord->y);
                 if(ST3->occupied){
+                    printf("this slot is occupied\n");
                     Token* T3 = FindToken(G->board,ST3);
                     Color col = T3->color;
+                    printf("so we got the token -> %s\n",Id_to_visual(T3->id));
                     if(col != turn){
                         Role RT3 = T3->role;
                         if(RT3==ROOK || RT3==QUEEN){
                             return 1;
                         }
                     } else {
+                        printf("and so turning stop to 1\n");
                         stop = 1;
                     }
                 }
             } else {
+                printf("third is out\n");
                 thrd_out = 1;
             }
         }
 
-        if(!fst_out){
+        if(frth_out!=1){
             if(IsInside(CT4)){
+                printf("fourth is in\n");
                 //still inside -> must test direction
                 Slot* ST4 = G->board->grid[CT4->x][CT4->y];
+                printf("getting the slot [%d][%d]\n", ST4->coord->x,ST4->coord->y);
                 if(ST4->occupied){
+                    printf("this slot is occupied\n");
                     Token* T4 = FindToken(G->board,ST4);
                     Color col = T4->color;
+                    printf("so we got the token -> %s\n",Id_to_visual(T4->id));
                     if(col != turn){
                         Role RT4 = T4->role;
                         if(RT4==ROOK || RT4==QUEEN){
                             return 1;
                         }
                     } else {
+                        printf("and so turning stop to 1\n");
                         stop = 1;
                     }
                 }
             } else {
+                printf("fourth is out !\n");
                 frth_out = 1;
             }
         }
 
         if(fst_out==1 && snd_out==1 && thrd_out==1 && frth_out==1){
+            printf("all are out !\n");
             stop = 1;
         }
 
