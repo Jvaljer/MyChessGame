@@ -281,11 +281,12 @@ int CanMove(Game* G, Slot* S1, Slot* S2){
 }
 
 int PinCheck(Game* G, Slot* S1, Slot* S2){
-    //here we can just test if when the piece moves, the king is checked...
+    //here we can test if when the piece moves, the king is checked...
     return 0;
 }
 
 int Unchecked(Game* G, Slot* S1, Slot* S2){
+    //here we can check if with the move S1->S2 the king isn't checked anymore 
     return 1;
 }
 
