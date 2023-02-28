@@ -321,6 +321,9 @@ int IsChecked(Game* G){
     int thrd_block = 0;
     int frth_block = 0;
 
+    int block_sum;
+    int out_sum;
+
     Coord* CT1;
     Coord* CT2;
     Coord* CT3;
@@ -335,22 +338,18 @@ int IsChecked(Game* G){
         CT4 = new_Coord(CK->x-diag_cpt,CK->y-diag_cpt);
         
         if(fst_out!=1 && fst_block!=1){
-            //+1 +1 -> down right
             if(IsInside(CT1)==1){
-                //still inside -> must test direction
                 Slot* ST1 = G->board->grid[CT1->x][CT1->y];
-                if(ST1->occupied){
-                    Token* T1 = FindToken(G->board,ST1);
-                    Color col = T1->color;
-                    if(col != turn){
-                        Role RT1 = T1->role;
+                if(ST1->occupied == 1){
+                    Token* TT1 = FindToken(G->board,ST1);
+                    Color col1 = TT1->color;
+                    if(col1 != turn){
+                        Role RT1 = TT1->role;
                         if(RT1==BISHOP || RT1==QUEEN){
                             return 1;
                         }
-                        if(col == WHITE){
-                            if(diag_cpt==1 && RT1==PAWN){
-                                return 1;
-                            }
+                        if(col1==BLACK && RT1==PAWN){
+                            return 1;
                         }
                     } else {
                         fst_block = 1;
@@ -362,22 +361,18 @@ int IsChecked(Game* G){
         }
 
         if(snd_out!=1 && snd_block!=1){
-            //-1 +1 -> down left
-            if(IsInside(CT2)){
-                //still inside -> must test direction
+            if(IsInside(CT2)==1){
                 Slot* ST2 = G->board->grid[CT2->x][CT2->y];
-                if(ST2->occupied){
-                    Token* T2 = FindToken(G->board,ST2);
-                    Color col = T2->color;
-                    if(col != turn){
-                        Role RT2 = T2->role;
+                if(ST2->occupied == 1){
+                    Token* TT2 = FindToken(G->board,ST2);
+                    Color col2 = TT2->color;
+                    if(col2 != turn){
+                        Role RT2 = TT2->role;
                         if(RT2==BISHOP || RT2==QUEEN){
                             return 1;
                         }
-                        if(col == WHITE){
-                            if(diag_cpt==1 && RT2==PAWN){
-                                return 1;
-                            }
+                        if(col2==BLACK && RT2==PAWN){
+                            return 1;
                         }
                     } else {
                         snd_block = 1;
@@ -389,22 +384,18 @@ int IsChecked(Game* G){
         }
 
         if(thrd_out!=1 && thrd_block!=1){
-            //+1 -1 -> up right
-            if(IsInside(CT3)){
-                //still inside -> must test direction
+            if(IsInside(CT3)==1){
                 Slot* ST3 = G->board->grid[CT3->x][CT3->y];
-                if(ST3->occupied){
-                    Token* T3 = FindToken(G->board,ST3);
-                    Color col = T3->color;
-                    if(col != turn){
-                        Role RT3 = T3->role;
+                if(ST3->occupied == 1){
+                    Token* TT3 = FindToken(G->board,ST3);
+                    Color col3 = TT3->color;
+                    if(col3 != turn){
+                        Role RT3 = TT3->role;
                         if(RT3==BISHOP || RT3==QUEEN){
-                            return 3;
+                            return 1;
                         }
-                        if(col == BLACK){
-                            if(diag_cpt==1 && RT3==PAWN){
-                                return 1;
-                            }
+                        if(col3==WHITE && RT3==PAWN){
+                            return 1;
                         }
                     } else {
                         thrd_block = 1;
@@ -416,22 +407,18 @@ int IsChecked(Game* G){
         }
 
         if(frth_out!=1 && frth_block!=1){
-            //-1 +1 -> up left
-            if(IsInside(CT4)){
-                //still inside -> must test direction
+            if(IsInside(CT4)==1){
                 Slot* ST4 = G->board->grid[CT4->x][CT4->y];
-                if(ST4->occupied){
-                    Token* T4 = FindToken(G->board,ST4);
-                    Color col = T4->color;
-                    if(col != turn){
-                        Role RT4 = T4->role;
+                if(ST4->occupied == 1){
+                    Token* TT4 = FindToken(G->board,ST4);
+                    Color col4 = TT4->color;
+                    if(col4 != turn){
+                        Role RT4 = TT4->role;
                         if(RT4==BISHOP || RT4==QUEEN){
                             return 1;
                         }
-                        if(col == WHITE){
-                            if(diag_cpt==1 && RT4==PAWN){
-                                return 1;
-                            }
+                        if(col4==WHITE && RT4==PAWN){
+                            return 1;
                         }
                     } else {
                         frth_block = 1;
@@ -442,16 +429,12 @@ int IsChecked(Game* G){
             }
         }
 
-        if(fst_out==1 && snd_out==1 && thrd_out==1 && frth_out==1){
-            all_out = 1;
-        }
-
-        if(fst_block==1 && snd_block==1 && thrd_block==1 && frth_block==1){
-            all_block = 1;
-        }
+        block_sum = fst_block + snd_block + thrd_block + frth_block;
+        out_sum = fst_out + snd_out + thrd_out + frth_out;
 
         diag_cpt++;
-    } while(all_out==0 && all_block==0);
+    } while(block_sum + out_sum < 4);
+
     printf("all good for diags !!!\n");
 
         //from lines/columns -> Rook || Queen
@@ -464,6 +447,7 @@ int IsChecked(Game* G){
     frth_out = 0;
     int stop = 0;
 
+    /*
     printf("starting to check for linears\n");
     do {
         printf("entered do while loop for the %dth time\n",line_cpt);
@@ -471,123 +455,8 @@ int IsChecked(Game* G){
         CT2 = new_Coord(CK->x-line_cpt,CK->y);
         CT3 = new_Coord(CK->x,CK->y+line_cpt);
         CT4 = new_Coord(CK->x,CK->y-line_cpt);
-
-        if(fst_out!=1){
-            if(IsInside(CT1)){
-                printf("first is in\n");
-                //still inside -> must test direction
-                Slot* ST1 = G->board->grid[CT1->x][CT1->y];
-                printf("getting the slot [%d][%d]\n", ST1->coord->x,ST1->coord->y);
-                if(ST1->occupied){
-                    printf("this slot is occupied\n");
-                    Token* T1 = FindToken(G->board,ST1);
-                    Color col = T1->color;
-                    printf("so we got the token -> %s\n",Id_to_visual(T1->id));
-                    if(col != turn){
-                        Role RT1 = T1->role;
-                        if(RT1==ROOK || RT1==QUEEN){
-                            return 1;
-                        }
-                    } else {
-                        printf("and so turning stop to 1\n");
-                        stop = 1;
-                    }
-                }
-            } else {
-                printf("first is out !\n");
-                fst_out = 1;
-            }
-        }
-
-        if(snd_out!=1){
-            if(IsInside(CT2)){
-                printf("second is in\n");
-                //still inside -> must test direction
-                Slot* ST2 = G->board->grid[CT2->x][CT2->y];
-                printf("getting the slot [%d][%d]\n", ST2->coord->x,ST2->coord->y);
-                if(ST2->occupied){
-                    printf("this slot is occupied\n");
-                    Token* T2 = FindToken(G->board,ST2);
-                    Color col = T2->color;
-                    printf("so we got the token -> %s\n",Id_to_visual(T2->id));
-                    if(col != turn){
-                        Role RT2 = T2->role;
-                        if(RT2==ROOK || RT2==QUEEN){
-                            return 1;
-                        }
-                    } else {
-                        printf("and so turning stop to 1\n");
-                        stop = 1;
-                    }
-                }
-            } else {
-                printf("second is out !\n");
-                snd_out = 1;
-            }
-        }
-
-        if(thrd_out!=1){
-            if(IsInside(CT3)){
-                printf("third is in\n");
-                //still inside -> must test direction
-                Slot* ST3 = G->board->grid[CT3->x][CT3->y];
-                printf("getting the slot [%d][%d]\n", ST3->coord->x,ST3->coord->y);
-                if(ST3->occupied){
-                    printf("this slot is occupied\n");
-                    Token* T3 = FindToken(G->board,ST3);
-                    Color col = T3->color;
-                    printf("so we got the token -> %s\n",Id_to_visual(T3->id));
-                    if(col != turn){
-                        Role RT3 = T3->role;
-                        if(RT3==ROOK || RT3==QUEEN){
-                            return 1;
-                        }
-                    } else {
-                        printf("and so turning stop to 1\n");
-                        stop = 1;
-                    }
-                }
-            } else {
-                printf("third is out\n");
-                thrd_out = 1;
-            }
-        }
-
-        if(frth_out!=1){
-            if(IsInside(CT4)){
-                printf("fourth is in\n");
-                //still inside -> must test direction
-                Slot* ST4 = G->board->grid[CT4->x][CT4->y];
-                printf("getting the slot [%d][%d]\n", ST4->coord->x,ST4->coord->y);
-                if(ST4->occupied){
-                    printf("this slot is occupied\n");
-                    Token* T4 = FindToken(G->board,ST4);
-                    Color col = T4->color;
-                    printf("so we got the token -> %s\n",Id_to_visual(T4->id));
-                    if(col != turn){
-                        Role RT4 = T4->role;
-                        if(RT4==ROOK || RT4==QUEEN){
-                            return 1;
-                        }
-                    } else {
-                        printf("and so turning stop to 1\n");
-                        stop = 1;
-                    }
-                }
-            } else {
-                printf("fourth is out !\n");
-                frth_out = 1;
-            }
-        }
-
-        if(fst_out==1 && snd_out==1 && thrd_out==1 && frth_out==1){
-            printf("all are out !\n");
-            stop = 1;
-        }
-
-        line_cpt++;
     } while(stop==0);
-    printf("all good for linears !!!\n");
+    printf("all good for linears !!!\n"); */
         //from L -> Knights
     return 0;
 }
