@@ -290,7 +290,6 @@ int Unchecked(Game* G, Slot* S1, Slot* S2){
 }
 
 int IsChecked(Game* G){
-    printf("entered IsChecked()...\n");
     //first we get the playing king 
     Color turn = G->turn;
     Token* King;
@@ -329,8 +328,6 @@ int IsChecked(Game* G){
     Coord* CT3;
     Coord* CT4;
 
-    
-    printf("starting to check from diags\n");
     do {
         CT1 = new_Coord(CK->x+diag_cpt,CK->y+diag_cpt);
         CT2 = new_Coord(CK->x-diag_cpt,CK->y+diag_cpt);
@@ -435,8 +432,6 @@ int IsChecked(Game* G){
         diag_cpt++;
     } while(block_sum + out_sum < 4);
 
-    printf("all good for diags !!!\n");
-
         //from lines/columns -> Rook || Queen
         // (+1,0) (-1,0) (0,+1) (0,-1)
     int line_cpt = 1;
@@ -445,19 +440,133 @@ int IsChecked(Game* G){
     snd_out = 0;
     thrd_out = 0;
     frth_out = 0;
-    int stop = 0;
 
-    /*
-    printf("starting to check for linears\n");
+    fst_block = 0;
+    snd_block = 0;
+    thrd_block = 0;
+    frth_block = 0;
+
+    block_sum = 0;
+    out_sum = 0;
+
     do {
-        printf("entered do while loop for the %dth time\n",line_cpt);
         CT1 = new_Coord(CK->x+line_cpt,CK->y);
         CT2 = new_Coord(CK->x-line_cpt,CK->y);
         CT3 = new_Coord(CK->x,CK->y+line_cpt);
         CT4 = new_Coord(CK->x,CK->y-line_cpt);
-    } while(stop==0);
-    printf("all good for linears !!!\n"); */
+        
+        if(fst_out!=1 && fst_block!=1){
+            if(IsInside(CT1)==1){
+                Slot* ST1 = G->board->grid[CT1->x][CT1->y];
+                if(ST1->occupied == 1){
+                    Token* TT1 = FindToken(G->board,ST1);
+                    Color col1 = TT1->color;
+                    if(col1 != turn){
+                        Role RT1 = TT1->role;
+                        if(RT1==ROOK || RT1==QUEEN){
+                            return 1;
+                        }
+                    } else {
+                        fst_block = 1;
+                    }
+                }
+            } else {
+                fst_out = 1;
+            }
+        }
+
+        if(snd_out!=1 && snd_block!=1){
+            if(IsInside(CT2)==1){
+                Slot* ST2 = G->board->grid[CT2->x][CT2->y];
+                if(ST2->occupied == 1){
+                    Token* TT2 = FindToken(G->board,ST2);
+                    Color col2 = TT2->color;
+                    if(col2 != turn){
+                        Role RT2 = TT2->role;
+                        if(RT2==ROOK || RT2==QUEEN){
+                            return 1;
+                        }
+                    } else {
+                        snd_block = 1;
+                    }
+                }
+            } else {
+                snd_out = 1;
+            }
+        }
+
+        if(thrd_out!=1 && thrd_block!=1){
+            if(IsInside(CT3)==1){
+                Slot* ST3 = G->board->grid[CT3->x][CT3->y];
+                if(ST3->occupied == 1){
+                    Token* TT3 = FindToken(G->board,ST3);
+                    Color col3 = TT3->color;
+                    if(col3 != turn){
+                        Role RT3 = TT3->role;
+                        if(RT3==ROOK || RT3==QUEEN){
+                            return 1;
+                        }
+                    } else {
+                        thrd_block = 1;
+                    }
+                }
+            } else {
+                thrd_out = 1;
+            }
+        }
+
+        if(frth_out!=1 && frth_block!=1){
+            if(IsInside(CT4)==1){
+                Slot* ST4 = G->board->grid[CT4->x][CT4->y];
+                if(ST4->occupied == 1){
+                    Token* TT4 = FindToken(G->board,ST4);
+                    Color col4 = TT4->color;
+                    if(col4 != turn){
+                        Role RT4 = TT4->role;
+                        if(RT4==ROOK || RT4==QUEEN){
+                            return 1;
+                        }
+                    } else {
+                        frth_block = 1;
+                    }
+                }
+            } else {
+                frth_out = 1;
+            }
+        }
+
+        block_sum = fst_block + snd_block + thrd_block + frth_block;
+        out_sum = fst_out + snd_out + thrd_out + frth_out;
+
+        line_cpt++;
+    } while(block_sum + out_sum < 4);
+
         //from L -> Knights
+    Coord* knights_move[8];
+
+    knights_move[0] = new_Coord(1,2);
+    knights_move[1] = new_Coord(2,1);
+    knights_move[2] = new_Coord(-1,2);
+    knights_move[3] = new_Coord(-2,1);
+    knights_move[4] = new_Coord(1,-2);
+    knights_move[5] = new_Coord(2,-1);
+    knights_move[6] = new_Coord(-1,-2);
+    knights_move[7] = new_Coord(-2,-1);
+
+    for(int i=0; i<8; i++){
+        Coord* dir = knights_move[i];
+        Coord* CT = new_Coord(CK->x+dir->x, CK->y+dir->y);
+        if(IsInside(CT)){
+            Slot* ST = G->board->grid[CT->x][CT->y];
+            if(ST->occupied){
+                Token* TT = FindToken(G->board,ST);
+                if(TT->color != turn && TT->role == KNIGHT){
+                    return 1;
+                }
+            }
+        }
+    }
+
     return 0;
 }
 
