@@ -61,7 +61,7 @@ Token* FindToken(Board* B, Slot* S){
 
 void PrintBoard(Board* B){
 
-    //system("clear");
+    system("clear");
     
     printf("\n  a    b    c    d    e    f    g    h\n");
     printf("-----------------------------------------\n");
@@ -89,7 +89,7 @@ void MoveToken(Board* B, Slot* S1, Slot* S2){
 }
 
 void Reinitialize(Board* B){
-    //must implement
+    B = new_Board(); // why not ??
     return;
 }
 

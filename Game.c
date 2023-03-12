@@ -14,7 +14,6 @@ Game* new_Game(){
 int PawnMove(Game* G, Token* T, Slot* S){
     printf("entering PawnMove -> \n");
     if(G->turn != T->color || EqSlotP(T->slot,S) ){
-        printf("    not good color...\n");
         return 0;
     } else {
         switch (T->color){
@@ -661,4 +660,9 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
 
     printf("checking on can move...\n");
     return CanMove(G,S1,S2);
+}
+
+int Finished(Game* G){
+    //must implement
+    return 1;
 }

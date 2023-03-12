@@ -167,4 +167,13 @@ int ValidMove(Game* G, Slot* S1, Slot* S2);
  */
 void ChangeTurn(Game* G);
 
+/*
+ * finished game function
+ * args: (G:Game*)
+ * result:
+ *      1 if none of the current player's move can uncheck the king
+ *      0 if not
+ */
+int Finished(Game* G);
+
 #endif
