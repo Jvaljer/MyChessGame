@@ -262,7 +262,11 @@ int CanMove(Game* G, Slot* S1, Slot* S2){
         case ER : 
             return 0;
         case wP :
-            return PawnMove(G,T_,S2);
+            PrintSlot(S2);
+            printf(" occupied = %d\n",S2->occupied);
+            int res = PawnMove(G,T_,S2);
+            printf("so PawnMove = %d\n", res);
+            return res;
         case wR :
             return RookMove(G,T_,S2);
         case wK :
@@ -289,8 +293,11 @@ int CanMove(Game* G, Slot* S1, Slot* S2){
 }
 
 int PinCheck(Game* G, Slot* S1, Slot* S2){
+    printf("PinCheck running\n");
     //here we can test if when the piece moves, the king is checked...
     int res;
+    int S1_occ = S1->occupied;
+    int S2_occ = S2->occupied;
     MoveToken(G->board,S1,S2);
     if(IsChecked(G)){
         res = 1;
@@ -298,12 +305,16 @@ int PinCheck(Game* G, Slot* S1, Slot* S2){
         res = 0;
     }
     MoveToken(G->board,S2,S1);
+    S1->occupied = S1_occ;
+    S2->occupied = S2_occ;
     return res;
 }
 
 int Unchecked(Game* G, Slot* S1, Slot* S2){
     //here we can check if with the move S1->S2 the king isn't checked anymore 
     int res;
+    int S1_occ = S1->occupied;
+    int S2_occ = S2->occupied;
     MoveToken(G->board,S1,S2);
     if(IsChecked(G)){
         res = 0;
@@ -311,6 +322,8 @@ int Unchecked(Game* G, Slot* S1, Slot* S2){
         res = 1;
     }
     MoveToken(G->board,S2,S1);
+    S1->occupied = S1_occ;
+    S2->occupied = S2_occ;
     return res;
 }
 
@@ -614,7 +627,7 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
     Token* T2;
 
     printf("S2.occupied ? ->");
-    if(S2->occupied){
+    if(S2->occupied==1){
         printf(" yes\n");
         T2 = FindToken(G->board,S2);
         printf("on slot's token : %s\n", Id_to_visual(T2->id));
@@ -623,7 +636,7 @@ int ValidMove(Game* G, Slot* S1, Slot* S2){
             return 0;
         }
     }
-    printf(" no\n");
+    printf("no || by an ally\n");
 
     printf("Token is pinned ? -> ");
     if(PinCheck(G,S1,S2)==1){
