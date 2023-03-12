@@ -41,12 +41,24 @@ int IsNeighbour(Coord* C1, Coord* C2){
 int IsDirectDiag(Coord* C1, Coord* C2){
     // for (0,0) all possible adjacent diag are :
         // (1,1) (-1,-1) (-1,1) (1,-1)
-    return (
-        ( ((C2->x)==(C1->x+1)) && ((C2->y)==(C1->y+1)) ) ||
-        ( ((C2->x)==(C1->x-1)) && ((C2->y)==(C1->y-1)) ) ||
-        ( ((C2->x)==(C1->x+1)) && ((C2->y)==(C1->y-1)) ) ||
-        ( ((C2->x)==(C1->x-1)) && ((C2->y)==(C1->y+1)) )
-    );
+    printf("is direct diag of : (%d,%d) (%d,%d)\n",C1->x,C1->y,C2->x,C2->y);
+    
+    if(( (C2->x)==(C1->x+1)) && ((C2->y)==(C1->y+1) ) ){
+        printf("we got (+1,+1)\n");
+        return 1;
+    } else if(( ((C2->x)==(C1->x-1)) && ((C2->y)==(C1->y-1)) )){
+        printf("we got (-1,-1)\n");
+        return 1;
+    } else if(( ((C2->x)==(C1->x+1)) && ((C2->y)==(C1->y-1)) )){
+        printf("we got (+1,-1)\n");
+        return 1;
+    } else if(( ((C2->x)==(C1->x-1)) && ((C2->y)==(C1->y+1)) )){
+        printf("we got (-1,+1)\n");
+        return 1;
+    } else {
+        printf("else...\n");
+        return 0;
+    }
 }
 
 int IsInside(Coord* C){

@@ -12,13 +12,21 @@ Game* new_Game(){
 }
 
 int PawnMove(Game* G, Token* T, Slot* S){
+    printf("entering PawnMove -> \n");
     if(G->turn != T->color || EqSlotP(T->slot,S) ){
+        printf("    not good color...\n");
         return 0;
     } else {
         switch (T->color){
             case WHITE :
+                printf("    white playing :\n");
                 if(T->slot->coord->y != S->coord->y){
-                    if(T->slot->coord->x != S->coord->x + 1){
+                    printf("        y aren't equal : %d & %d ...\n",T->slot->coord->y, S->coord->y);
+                    if(T->slot->coord->x != S->coord->x){
+                        printf("        x aren't equal : %d & %d ...\n",T->slot->coord->x,S->coord->x);
+                        PrintSlot(S);
+                        printf(" -> occupied = %d\n",S->occupied);
+
                         if(IsDirectDiagSlot(T->slot,S) && S->occupied==1){
                             return 1;
                         }
@@ -282,12 +290,28 @@ int CanMove(Game* G, Slot* S1, Slot* S2){
 
 int PinCheck(Game* G, Slot* S1, Slot* S2){
     //here we can test if when the piece moves, the king is checked...
-    return 0;
+    int res;
+    MoveToken(G->board,S1,S2);
+    if(IsChecked(G)){
+        res = 1;
+    } else {
+        res = 0;
+    }
+    MoveToken(G->board,S2,S1);
+    return res;
 }
 
 int Unchecked(Game* G, Slot* S1, Slot* S2){
     //here we can check if with the move S1->S2 the king isn't checked anymore 
-    return 1;
+    int res;
+    MoveToken(G->board,S1,S2);
+    if(IsChecked(G)){
+        res = 0;
+    } else {
+        res = 1;
+    }
+    MoveToken(G->board,S2,S1);
+    return res;
 }
 
 int IsChecked(Game* G){
